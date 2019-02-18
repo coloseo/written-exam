@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"log"
+	"os"
 )
 
 type WrittenExam interface {
@@ -19,9 +22,15 @@ func main(){
 }
 
 func(c *Reverse) RecursionReverse() {
-	s:=""
+
+	var reader *bufio.Reader
 	fmt.Println("请输入一个字符串，按回车结束。")
-	fmt.Scanln(&s)
+	reader = bufio.NewReader(os.Stdin)
+	s,err := reader.ReadString('\n')
+	if err!=nil{
+		log.Fatal(err)
+	}
+	fmt.Println(s)
 	fmt.Println("递归逆序后的字符串为:",reverse(s))
 }
 
