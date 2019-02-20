@@ -67,41 +67,41 @@ const areas = [
     },
 ];
 
-function areasFn(data){
-    let areasObj = {};
+function getTree(data){
+    let obj = {};
     
     for(let i = 0,ih = data.length;i<ih;i++){
-        let _this = data[i];
-        //第一级
-        if(_this.parent == ""){
-            _this.child = {}; 
-            areasObj[_this.code] = _this;
-        }
-    }
-
-    for(let i = 0,ih = data.length;i<ih;i++){
-        let _this = data[i];
-        //第二级
-        if(_this.parent !== ""){
-            let _parent = areasObj[_this.parent];
-            if(_parent){
-                _parent.child[_this.code] = findChild(data, _this);
+        let item = data[i];
+        let parentId = item.parent;
+        if(parentId === ""){
+            let chinds = findChild(data, item.code);
+            if(chinds.length){
+                for(let y = 0,yh = chinds.length;y<yh;y++){
+                    let _items = chinds[y];
+                    let _childs = findChild(data, _items.code);
+                    _childs.length && (_items.child = _childs);
+                }
+                item.child = chinds;
             }
+            obj[item.code] = item;
         }
     }
 
-    console.log(areasObj);
+    return obj;
+    
 }
 
-function findChild(data, _this){
-    //第三级
+function findChild(data, id){
+    let child = [];
     for(let i = 0,ih = data.length;i<ih;i++){
-        if(data[i].parent === _this.code){
-            _this.child = _this.child || [];
-            _this.child.push(data[i]);
+        let item = data[i];
+        let parentId = item.parent;
+        if(parentId === id){
+            child.push(item);
         }
     }
-    return _this;
+    return child;
 }
 
-areasFn(areas)
+let tree = getTree(areas);
+console.log(tree);
