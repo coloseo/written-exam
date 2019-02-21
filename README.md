@@ -4,15 +4,55 @@
 
 1. 编写一个递归版本的 reverse(s) 函数(或方法),以将字符串s倒置。
 
+   ```python
+   def reverse(data):
+       res = ''
+       if len(data):
+           end = data[-1]
+           new = data[0:-1]
+           res += end
+           res += reverse(new)
+           return res
+       return res
+   
+   
+   if __name__ == '__main__':
+       a = '1234567'
+       print(reverse(a))
+   ```
+
 2. 编写程序 expr，以计算从命令行输入的逆波兰表达式的值，其中每个运算符或操作数用一个单独的参数表示。例如，命令
-expr 2 3 4 + *
+    expr 2 3 4 + *
 
 3. 用归并排序将3，1，4，1，5，9，2，6 排序。
 
+   ```python
+   def test(data: list):
+       if data:
+           low = []
+           point = data[0]
+           high = []
+           eq = []
+           for i in data:
+               if i > point:
+                   high.append(i)
+               elif i < point:
+                   low.append(i)
+               else:
+                   eq.append(i)
+           return test(low) + eq + test(high)
+       else:
+           return data
+   
+   if __name__ == '__main__':
+       a = [3, 1, 4, 1, 5, 9, 2, 6]
+       print(test(a))
+   ```
+
 4. 对下面的 json 字符串 serial 相同的进行去重。
 
-```javascript
-  [{
+```python
+a = [{
     "name": "张三",
     "serial": "0001"
   }, {
@@ -42,10 +82,19 @@ expr 2 3 4 + *
   }, {
     "name": "赵四2",
     "serial": "0004"
-  }];
+  }]
+data = []
+new = []
+for i in a:
+    serial = i.get('serial')
+    if serial not in data:
+        data.append(serial)
+        new.append(i)
+
+print(new)
 ```
 
-5. 把下面给出的扁平化json数据用递归的方式改写成组织树的形式
+1. 把下面给出的扁平化json数据用递归的方式改写成组织树的形式
 
 ```javascript
   [
