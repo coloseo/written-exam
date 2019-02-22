@@ -4,10 +4,107 @@
 
 1. 编写一个递归版本的 reverse(s) 函数(或方法),以将字符串s倒置。
 
-2. 编写程序 expr，以计算从命令行输入的逆波兰表达式的值，其中每个运算符或操作数用一个单独的参数表示。例如，命令
-expr 2 3 4 + *
+```python
+def reverse_str(s:str):
+    if len(s) <= 1:
+        return s
+    return s[-1] + reverse_str(s[:-1])
+
+
+def main():
+    result = reverse_str('hello world')
+    print(result)
+
+
+if __name__ == '__main__':
+    main()
+```
+
+
+
+2. 编写程序 expr，以计算从命令行输入的逆波兰表达式的值，其中每个运算符或操作数用一个单独的参数表示。例如，命令expr 2 3 4 + *
+
+```python
+def reverse_polish_expression():
+    """
+    逆波兰表达式
+    """
+    stack_value = []
+    for item in input().split(' '):
+        if item in ['+', '-', '*', '/']:
+            n2 = stack_value.pop()
+            n1 = stack_value.pop()
+            result = cal(n1, n2, item)
+            stack_value.append(result)
+        else:
+            stack_value.append(int(item))
+    return stack_value[0]
+
+
+def cal(n1, n2, op):
+    if op == '+':
+        return n1 + n2
+    if op == '-':
+        return n1 - n2
+    if op == '*':
+        return n1 * n2
+    if op == '/':
+        return n1 / n2
+    
+    
+def main():
+    result = reverse_polish_expression()
+    print(result)
+
+
+if __name__ == '__main__':
+    main()
+```
+
+
 
 3. 用归并排序将3，1，4，1，5，9，2，6 排序。
+
+```python
+def merge_sort(items, comp=lambda x, y: x <= y):
+    """
+    归并排序
+    """
+    if len(items) < 2:
+        return items[:]
+    mid = len(items) // 2
+    left = merge_sort(items[:mid])
+    right = merge_sort(items[mid:])
+    return merge(left, right)
+
+
+def merge(items1, items2, comp=lambda x, y: x <= y):
+    """合并：将两个有序列表合并成一个新的有序列表"""
+    index1, index2 = 0, 0
+    result = []
+    while index1 < len(items1) and index2 < len(items2):
+        if comp(items1[index1], items2[index2]):
+            result.append(items1[index1])
+            index1 += 1
+        else:
+            result.append(items2[index2])
+            index2 += 1
+    result += items1[index1:]
+    result += items2[index2:]
+    return result
+
+
+def main():
+    result = merge_sort([3, 1, 4, 1, 5, 9, 2, 6])
+    print(result)
+
+
+if __name__ == '__main__':
+    main()
+
+```
+
+
 
 4. 对下面的 json 字符串 serial 相同的进行去重。
 
@@ -43,7 +140,33 @@ expr 2 3 4 + *
     "name": "赵四2",
     "serial": "0004"
   }];
+
 ```
+
+```python
+import json
+
+
+def remove_duplicates(items):
+    items = json.loads(items)
+    result = []
+    duplicates_list = []
+    for item in items:
+        if item['serial'] not in duplicates_list:
+            duplicates_list.append(item['serial'])
+            result.append(item)
+    return result
+
+def main():
+    result = remove_duplicates(item)
+    print(result)
+
+
+if __name__ == '__main__':
+    main()
+```
+
+
 
 5. 把下面给出的扁平化json数据用递归的方式改写成组织树的形式
 
@@ -117,3 +240,32 @@ expr 2 3 4 + *
     },
   ];
 ```
+
+```python
+import json
+
+
+result = []
+def organization_tree_form(items, code='', flag=False):
+    items = json.loads(items)
+    for item in items:
+        if not item['parent'] and not flag:
+            code = item['code']
+            result.append(item)
+
+        elif code == item['parent']:
+            for result_item in result:
+
+                if result_item['code'] == code:
+                    if not result_item.get('child'):
+                        result_item['child'] = []
+                        result_item['child'].append(item)
+                    else:
+                        result_item['child'].append(item)
+    for result_item in result[0]['child']:
+        organization_tree_form(items, code=result_item['code'], flag=True)
+
+organization_tree_form(items, code='110')
+print(result)
+```
+
