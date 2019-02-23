@@ -3,16 +3,101 @@
 请完成以下笔试题，可以使用自己擅长的语言来编写，通过 github pull request 提交代码。
 
 1. 编写一个递归版本的 reverse(s) 函数(或方法),以将字符串s倒置。
-
+```javascript
+function reverses(s) {
+			if(i < len) {
+				o += s[len - i - 1];
+			} else {
+				return;
+			}
+			i ++;
+			reverses(s);
+		}
+		var s = "abcde";
+		var i = 0;
+		var o = "";
+		var len = s.length;
+		reverses(s);
+		console.log(o);
+   ```
 2. 编写程序 expr，以计算从命令行输入的逆波兰表达式的值，其中每个运算符或操作数用一个单独的参数表示。例如，命令
 expr 2 3 4 + *
-
+```
+function getExpr(arr) {
+			var result = 0;
+			var temp = new Array(100);
+			var tempNum = -1;
+			for(var i = 0; i < arr.length; i ++) {
+				if(arr[i].match(/\d/)) {
+					tempNum ++;
+					temp[tempNum] = arr[i];
+				} else {
+					switch(arr[i]) {
+						case "+": 
+						result = (temp[tempNum-1] * 1)+ (temp[tempNum] * 1);
+						tempNum --;
+						temp[tempNum] = result;
+						break;
+						case "-": 
+						result = (temp[tempNum-1] * 1) - (temp[tempNum] * 1);
+						tempNum --;
+						temp[tempNum] = result;
+						break;
+						case "*": 
+						result = (temp[tempNum-1] * 1) * (temp[tempNum] * 1);
+						tempNum --;
+						temp[tempNum] = result;
+						break;
+						case "/": 
+						result = (temp[tempNum-1] * 1) / (temp[tempNum] * 1);
+						tempNum --;
+						temp[tempNum] = result;
+						break;
+					}
+				}
+			}
+			result = temp[tempNum];
+			return result;
+		}
+		var str = window.prompt();
+		console.log(getExpr(str));
+```
 3. 用归并排序将3，1，4，1，5，9，2，6 排序。
-
+```
+function mergeSort(arr) {
+			var len = arr.length;
+			if(len < 2) {
+				return arr;
+			}
+			var mid = Math.floor(len / 2);
+			var left = arr.slice(0, mid);
+			var right = arr.slice(mid, len);
+			return merge(mergeSort(left), mergeSort(right));
+		}
+		function merge(left, right) {
+			var result = [];
+			while(left.length > 0 && right.length > 0) {
+				if(left[0] <= right[0]) {
+					result.push(left.shift());
+				} else {
+					result.push(right.shift());
+				}
+			}
+			while(left.length) {
+				result.push(left.shift());
+			}
+			while(right.length) {
+				result.push(right.shift());
+			}
+			return result;
+		}
+		var arr = [3,1,4,1,5,9,2,6];
+		console.log(mergeSort(arr));
+  ```
 4. 对下面的 json 字符串 serial 相同的进行去重。
 
 ```javascript
-  [{
+ var str = [{
     "name": "张三",
     "serial": "0001"
   }, {
@@ -43,12 +128,24 @@ expr 2 3 4 + *
     "name": "赵四2",
     "serial": "0004"
   }];
+  function removeSame(arr) {
+				var content = [];
+				var result = [];
+				for(var i = 0; i < arr.length; i++) {
+					var t = arr[i];
+					if(content.indexOf(t["serial"]) == -1) {
+						content.push(t["serial"]);
+						result.push(t);
+					} 
+				}
+				return result;
+			}
+			console.log(removeSame(str));
 ```
-
 5. 把下面给出的扁平化json数据用递归的方式改写成组织树的形式
 
 ```javascript
-  [
+  var str =[
     {
       "id": "1",
       "name": "中国",
@@ -116,4 +213,22 @@ expr 2 3 4 + *
       "parent": "510001",
     },
   ];
+function getTree(arr, parentid) {
+				var result = [];
+				var temp = "";
+				for(var i = 0; i < arr.length; i ++) {
+					if(arr[i].parent == parentid) {
+						var obj = arr[i];
+						temp = getTree(arr, arr[i].code);
+						if(temp.length > 0) {
+							obj.children = temp;
+						}
+						result.push(obj);
+					}
+				}
+				return result;
+			}
+			console.log(getTree(str, "110"));
 ```
+
+
