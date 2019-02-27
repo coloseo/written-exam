@@ -1,54 +1,148 @@
-# 笔试题  
+﻿ 
+  /* 1. 编写一个递归版本的 reverse(s) 函数(或方法),以将字符串s倒置。 */
+ function newReverse(str){
+		var len=str.length;
+		if (len>1){
+			return newReverse(str.substring(1,len)) + str[0]
+		}
+		else{
+			return str[0] ;
+		}
+	};
+console.log(newReverse("?rewsna thgir ti sI"));
 
-请完成以下笔试题，可以使用自己擅长的语言来编写，通过 github pull request 提交代码。
+  /* 2. 编写程序 expr，以计算从命令行输入的逆波兰表达式的值，其中每个运算符或操作数用一个单独的参数表示。 */
+//#!/usr/bin/env node
+function expr(argv){
+	var len=argv.length;
+	if(len>2){
+		var stack=[];
+		for(var i=2;i<len;i++){
+			var arg=argv[i];
+			var num=Number(arg);
+			if(isNaN(num)){
+				var n1 = Number(stack.splice(stack.length-1,1));
+                var n2 = Number(stack.splice(stack.length-1,1));         
+				switch (arg){
+					case '+':
+					    num=n1+n2;
+						break;
+					case '-':
+					    num=n1-n2;
+						break;
+					case '*':
+					    num=n1*n2;
+						break;
+					case '/':
+					    num=n1/n2;
+						break;
+					default:  
+					    return "wrong operator!";
+				}	
+			}
+			stack.push(num);
+		}
+		return stack[0];
+	}else return "need more operators!";
+};
+console.log(expr(process.argv));
 
-1. 编写一个递归版本的 reverse(s) 函数(或方法),以将字符串s倒置。
+ /* 3. 用归并排序将3，1，4，1，5，9，2，6 排序 */
+function merge(arr1,arr2){
+        var mergedArr = [];
+        while(arr1.length>0 || arr2.length>0){
+          if(arr1[0]>arr2[0] || arr2.length==0){
+          	mergedArr.push(arr1[0]);
+          	arr1.splice(0,1);
+          }else {
+          	mergedArr.push(arr2[0]);
+          	arr2.splice(0,1);
+          }
+        } 
+        return mergedArr;
+    }
 
-2. 编写程序 expr，以计算从命令行输入的逆波兰表达式的值，其中每个运算符或操作数用一个单独的参数表示。例如，命令
-expr 2 3 4 + *
+function mergeSort(arr){
+	if(arr.length>1){
+		return merge(mergeSort(arr.slice(0,arr.length/2)),mergeSort(arr.slice(arr.length/2,arr.length)));
+	}
+	else return arr;        
+}
+var q3=[3,1,4,1,5,9,2,6 ];
+console.log(mergeSort(q3));
 
-3. 用归并排序将3，1，4，1，5，9，2，6 排序。
+ /* 4. 对下面的 json 字符串 serial 相同的进行去重。 */
+function duplicateRemoval(jsonArr){
+	var dictionary=[];
+	for(var i in jsonArr){
+		if(!dictionary[jsonArr[i].serial]){
+			dictionary[jsonArr[i].serial]=1;
+		}
+		else {
+			delete jsonArr[i];
+		}
+	}
+	return jsonArr;
 
-4. 对下面的 json 字符串 serial 相同的进行去重。
+}
 
-```javascript
-  [{
+var q4= [
+    {
     "name": "张三",
     "serial": "0001"
-  }, {
+}, {
     "name": "李四",
     "serial": "0002"
-  }, {
+}, {
     "name": "王五",
     "serial": "0003"
-  }, {
+}, {
     "name": "王五2",
     "serial": "0003"
-  }, {
+}, {
     "name": "赵四",
     "serial": "0004"
-  }, {
+}, {
     "name": "小明",
     "serial": "005"
-  }, {
+}, {
     "name": "小张",
     "serial": "006"
-  }, {
+}, {
     "name": "小李",
     "serial": "006"
-  }, {
+}, {
     "name": "小李2",
     "serial": "006"
-  }, {
+}, {
     "name": "赵四2",
     "serial": "0004"
-  }];
-```
+}];
+console.log(duplicateRemoval(q4));
 
-5. 把下面给出的扁平化json数据用递归的方式改写成组织树的形式
 
-```javascript
-  [
+ /*5. 把下面给出的扁平化json数据用递归的方式改写成组织树的形式。*/
+
+function foundChild(parent,jsonArr){
+	for(i in jsonArr){
+		if(jsonArr[i].parent===parent.code){
+			if(!parent.hasOwnProperty('child')) parent.child=[];
+			parent.child.push(jsonArr[i]);
+			foundChild(parent.child[parent.child.length-1],jsonArr)
+			delete jsonArr[i];
+		}
+	}
+}
+
+function buildTree(jsonArr){
+	for(var i in jsonArr){
+		foundChild(jsonArr[i],jsonArr);
+	}
+	return jsonArr[0];
+}
+
+
+var q5= [
     {
       "id": "1",
       "name": "中国",
@@ -116,4 +210,7 @@ expr 2 3 4 + *
       "parent": "510001"
     }
   ];
-```
+
+
+console.log(buildTree(q5));
+
