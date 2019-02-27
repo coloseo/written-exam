@@ -1,17 +1,19 @@
 ﻿ 
-  /* 1. 编写一个递归版本的 reverse(s) 函数(或方法),以将字符串s倒置。 */
- function newReverse(str){
-		var len=str.length;
-		if (len>1){
-			return newReverse(str.substring(1,len)) + str[0]
-		}
-		else{
-			return str[0] ;
-		}
-	};
+* 1. 编写一个递归版本的 reverse(s) 函数(或方法),以将字符串s倒置。
+```javasceipt
+function newReverse(str){
+	var len=str.length;
+	if (len>1){
+		return newReverse(str.substring(1,len)) + str[0]
+	}
+	else{
+		return str[0] ;
+	}
+};
 console.log(newReverse("?rewsna thgir ti sI"));
-
-  /* 2. 编写程序 expr，以计算从命令行输入的逆波兰表达式的值，其中每个运算符或操作数用一个单独的参数表示。 */
+```
+2. 编写程序 expr，以计算从命令行输入的逆波兰表达式的值，其中每个运算符或操作数用一个单独的参数表示。 
+```javasceipt
 //#!/usr/bin/env node
 function expr(argv){
 	var len=argv.length;
@@ -22,7 +24,7 @@ function expr(argv){
 			var num=Number(arg);
 			if(isNaN(num)){
 				var n1 = Number(stack.splice(stack.length-1,1));
-                var n2 = Number(stack.splice(stack.length-1,1));         
+				var n2 = Number(stack.splice(stack.length-1,1));         
 				switch (arg){
 					case '+':
 					    num=n1+n2;
@@ -46,21 +48,25 @@ function expr(argv){
 	}else return "need more operators!";
 };
 console.log(expr(process.argv));
+```
 
- /* 3. 用归并排序将3，1，4，1，5，9，2，6 排序 */
+
+
+  3. 用归并排序将3，1，4，1，5，9，2，6 排序 
+```javasceipt
 function merge(arr1,arr2){
-        var mergedArr = [];
-        while(arr1.length>0 || arr2.length>0){
-          if(arr1[0]>arr2[0] || arr2.length==0){
-          	mergedArr.push(arr1[0]);
-          	arr1.splice(0,1);
-          }else {
-          	mergedArr.push(arr2[0]);
-          	arr2.splice(0,1);
-          }
-        } 
-        return mergedArr;
-    }
+	var mergedArr = [];
+	while(arr1.length>0 || arr2.length>0){
+		if(arr1[0]>arr2[0] || arr2.length==0){
+		mergedArr.push(arr1[0]);
+		arr1.splice(0,1);
+		}else {
+		mergedArr.push(arr2[0]);
+		arr2.splice(0,1);
+		}
+	} 
+	return mergedArr;
+}
 
 function mergeSort(arr){
 	if(arr.length>1){
@@ -70,8 +76,10 @@ function mergeSort(arr){
 }
 var q3=[3,1,4,1,5,9,2,6 ];
 console.log(mergeSort(q3));
+```
 
- /* 4. 对下面的 json 字符串 serial 相同的进行去重。 */
+4. 对下面的 json 字符串 serial 相同的进行去重。 
+```javasceipt
 function duplicateRemoval(jsonArr){
 	var dictionary=[];
 	for(var i in jsonArr){
@@ -119,10 +127,10 @@ var q4= [
     "serial": "0004"
 }];
 console.log(duplicateRemoval(q4));
+```
 
-
- /*5. 把下面给出的扁平化json数据用递归的方式改写成组织树的形式。*/
-
+ 5. 把下面给出的扁平化json数据用递归的方式改写成组织树的形式。
+```javasceipt
 function foundChild(parent,jsonArr){
 	for(i in jsonArr){
 		if(jsonArr[i].parent===parent.code){
@@ -213,4 +221,4 @@ var q5= [
 
 
 console.log(buildTree(q5));
-
+```
