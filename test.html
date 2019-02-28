@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script type="text/javascript">
+// 1
+let strr="abcd"
+        let strr1 =""
+        function run1(strr2){
+            //    将strr2的最后一项赋给空字符串
+        strr1 += strr2[strr2.length-1]
+        console.log(strr1)
+            //    每循环一次，strr2的长度减少1，直到长度为1时结束
+                if(strr2.length>1){
+                    let newS = strr2.slice(0,strr2.length-1)
+                    run1(newS)
+                    
+                }
+        }
+        run1(strr)
+
+
+// 3排序
+        let arr = [3,1,4,1,5,9,2,6]
+        function sort(arr){
+            for(let i = 0,len=arr.length;i<len;i++){
+                for(let j= 0;j<arr.length-1-i;j++) {
+                    if(arr[j] > arr[j+1]){
+                            let stash = arr[j];
+                            arr[j]=arr[j+1]
+                            arr[j+1]=stash
+                    }
+                }
+            }
+            return arr
+        }
+        sort(arr)
+        console.log(arr)
+
+// 4
+        
+
+        // 5
+        let newArray = []
+        let arr1 =  [
+    {
+      "id": "1",
+      "name": "中国",
+      "code": "110",
+      "parent": ""
+    },
+    {
+      "id": "2",
+      "name": "北京市",
+      "code": "110000",
+      "parent": "110"
+    },
+    {
+      "id": "3",
+      "name": "河北省",
+      "code": "130000",
+      "parent": "110"
+    },
+    {
+      "id": "4",
+      "name": "四川省",
+      "code": "510000",
+      "parent": "110"
+    },
+    {
+      "id": "5",
+      "name": "石家庄市",
+      "code": "130001",
+      "parent": "130000"
+    },
+    {
+      "id": "6",
+      "name": "唐山市",
+      "code": "130002",
+      "parent": "130000"
+    },
+    {
+      "id": "7",
+      "name": "邢台市",
+      "code": "130003",
+      "parent": "130000"
+    },
+    {
+      "id": "8",
+      "name": "成都市",
+      "code": "510001",
+      "parent": "510000"
+    },
+    {
+      "id": "9",
+      "name": "简阳市",
+      "code": "510002",
+      "parent": "510000"
+    },
+    {
+      "id": "10",
+      "name": "武侯区",
+      "code": "51000101",
+      "parent": "510001"
+    },
+    {
+      "id": "11",
+      "name": "金牛区",
+      "code": "51000102",
+      "parent": "510001"
+    }
+  ];
+        function add(children,parent_code){
+        arr1.forEach((item)=>{
+            if(item.parent === parent_code){
+                // 给当前节点机上children属性，并加入到newArray里
+                let obj = Object.assign({},item,{children:[]});
+                children.push(obj);
+                // 继续判断下一个对象
+                add(obj.children,obj.code);
+            }
+        })
+        }
+        // 往初始值为空的数组里加节点
+        add(newArray,"");
+        console.log(newArray);
+    </script>
+</body>
+</html>
