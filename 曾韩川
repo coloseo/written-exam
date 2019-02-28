@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //(1)
+        function reverse( str ){
+        var arr = [];
+        for(var len = str.length,i=len;i>=0;i-- ){
+                arr.push(str[i]);
+            }
+        return arr.join('');
+        }
+        var str = "hello world";
+        var res = reverse(str);
+        console.log(res);
+
+        //(2)不会
+        //(3)
+        function merge(left, right) {
+  var tmp = [];
+
+  while (left.length && right.length) {
+    if (left[0] < right[0])
+      tmp.push(left.shift());
+    else
+      tmp.push(right.shift());
+  }
+
+  return tmp.concat(left, right);
+}
+
+function mergeSort(a) {
+  if (a.length === 1) 
+    return a;
+
+  var mid = ~~(a.length / 2)
+    , left = a.slice(0, mid)
+    , right = a.slice(mid);
+
+  return merge(mergeSort(left), mergeSort(right));
+}
+
+console.log(mergeSort([3,1,4,1,5,9,2,6]));
+        //(4)
+        var arr = [{
+    "name": "张三",
+    "serial": "0001"
+  }, {
+    "name": "李四",
+    "serial": "0002"
+  }, {
+    "name": "王五",
+    "serial": "0003"
+  }, {
+    "name": "王五2",
+    "serial": "0003"
+  }, {
+    "name": "赵四",
+    "serial": "0004"
+  }, {
+    "name": "小明",
+    "serial": "005"
+  }, {
+    "name": "小张",
+    "serial": "006"
+  }, {
+    "name": "小李",
+    "serial": "006"
+  }, {
+    "name": "小李2",
+    "serial": "006"
+  }, {
+    "name": "赵四2",
+    "serial": "0004"
+  }];
+  var arr1 = [];
+  for(let i=0;i<arr.length;i++){
+    for(let j=0;j<i;j++){
+      if(arr[i].serial == arr[j].serial){
+        console.log(i)
+        arr1 = arr.splice(i,2)
+      }
+    }
+    console.log(arr,arr1)
+  }  
+  //(5)
+  var data = [
+    {
+      "id": "1",
+      "name": "中国",
+      "code": "110",
+      "parent": ""
+    },
+    {
+      "id": "2",
+      "name": "北京市",
+      "code": "110000",
+      "parent": "110"
+    },
+    {
+      "id": "3",
+      "name": "河北省",
+      "code": "130000",
+      "parent": "110"
+    },
+    {
+      "id": "4",
+      "name": "四川省",
+      "code": "510000",
+      "parent": "110"
+    },
+    {
+      "id": "5",
+      "name": "石家庄市",
+      "code": "130001",
+      "parent": "130000"
+    },
+    {
+      "id": "6",
+      "name": "唐山市",
+      "code": "130002",
+      "parent": "130000"
+    },
+    {
+      "id": "7",
+      "name": "邢台市",
+      "code": "130003",
+      "parent": "130000"
+    },
+    {
+      "id": "8",
+      "name": "成都市",
+      "code": "510001",
+      "parent": "510000"
+    },
+    {
+      "id": "9",
+      "name": "简阳市",
+      "code": "510002",
+      "parent": "510000"
+    },
+    {
+      "id": "10",
+      "name": "武侯区",
+      "code": "51000101",
+      "parent": "510001"
+    },
+    {
+      "id": "11",
+      "name": "金牛区",
+      "code": "51000102",
+      "parent": "510001"
+    }
+  ];    
+  function transDate(list,idstr,pidstr){  
+    var result = [],temp = {};  
+    for(i = 0; i < list.length; i++){  
+        temp[list[i][idstr]]=list[i]; 
+    }  
+    for(j=0; j<list.length; j++){  
+        tempVp = temp[list[j][pidstr]];  
+        if(tempVp){
+            if(!tempVp["data"]) tempVp["data"] = [];
+            tempVp["data"].push(list[j]); 
+        }else{  
+            result.push(list[j]); 
+        }  
+    }  
+    return result;  
+}  
+  
+console.log(transDate(data,"id","parent")); 
+document.write(JSON.stringify(transDate(data,"id","parent"))); 
+    </script>
+</body>
+</html>
