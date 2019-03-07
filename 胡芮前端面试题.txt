@@ -1,0 +1,101 @@
+1.//字符串反向（递归）
+var countNum = 0;
+    var newString = "";
+    function back(string){
+        if (string.length>1){
+            var sLength = string.length;
+            countNum++;
+            if (countNum<=sLength){
+                newString+=string[sLength-countNum];
+                back(string);
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return string;
+        }
+    }
+    back("nihao");
+    console.log(newString);
+
+
+3.//归并排序（递归）
+function　merge(left, right){
+        var　result=[];
+        while(left.length>0 && right.length>0){
+            if(left[0]<right[0]){
+                result.push(left.shift());
+            }else{
+                result.push(right.shift());
+            }
+        }
+        return　result.concat(left).concat(right);
+    }
+    function　mergeSort(items){
+        if(items.length == 1){
+            return　items;
+        }
+        var　middle = Math.floor(items.length/2),
+            left = items.slice(0, middle),
+            right = items.slice(middle);
+        return　merge(mergeSort(left), mergeSort(right));
+    }
+
+    var newArray =[3,1,4,1,5,9,2,6];
+
+4.
+//数组去重（去除所有重复的，包括自身）
+var newArray =[3,1,4,1,1,1,15,9,2,6,1,1];
+    var state = false;
+    function deleteA(array) {
+        for (var i=0;i<array.length;i++){
+            state = false;
+            for (var j = i+1;j<array.length;j++){
+
+                if (array[i]==array[j]){
+                        state=true;
+                        array.splice(j,1);
+                        j--;
+                }
+                if (j==array.length-1&&state==true){
+                    array.splice(i,1);
+                    i--;
+                }
+            }
+        }
+        return array;
+    }
+    console.log(deleteA(newArray));
+//数组去重，不包括自身
+function deletaA(array) {
+            for (var i=0;i<array.length;i++){
+                for (var j =i+1;j<array.length;j++){
+                    if (array[i]==array[j]){
+                        array.splice(j,1);
+                        j--;
+                    } 
+                } 
+            } 
+        }
+
+5.
+//扁平化json数据改写成组织树的形式
+function transDate(list,idstr,pidstr){
+    var result = [],temp = {};
+    for(i = 0; i < list.length; i++){
+        temp[list[i][idstr]]=list[i];
+    }
+    for(j=0; j<list.length; j++){
+        tempVp = temp[list[j][pidstr]]; 
+        if(tempVp){
+            if(!tempVp["nodes"]) tempVp["nodes"] = [];
+            tempVp["nodes"].push(list[j]);
+        }else{
+            result.push(list[j]);
+        }
+    }
+    return result;
+}
+console.log(transDate(nodes,"code","parent"));
