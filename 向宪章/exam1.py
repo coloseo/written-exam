@@ -2,5 +2,7 @@
 
 
 def reverse(s):
-    return s[::-1]
-
+    if s == '':
+        return s
+    else:
+        return reverse(s[1:]) + s[0]
