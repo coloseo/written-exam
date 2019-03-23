@@ -4,28 +4,40 @@
      var s = 'abc';
      s[1] = 'B';
      
-     console.log(s);
+     console.log(s); 
 
      var l = new String('abc');
      l[1] = 'B';
-     console.log(l);
+     console.log(l);   
      #+END_SRC
 
+
+     解答： console.log(s); // "aBc"
+           console.log(l); // "aBc"
+
   2. 如何逆序一个字符串？
+     
+     解答： var str;
+           let newStr = str.split().reverse().join(",")
 
   3. 接上，为什么不能直接使用
      #+BEGIN_SRC javascript
      Array.prototype.reverse.call(str)
      #+END_SRC
      逆序字符串？
+     
+     
 
   4. 判断以下结果，为什么会出现这样的情况，如何做出正确的比较？
      #+BEGIN_SRC javascript
      0.1 + 0.2 === 0.3;
      0.8 - 0.6 === 0.3;
      #+END_SRC
+     
+     解答： 因为javascript中的Number类型为浮点数
 
   5. 如何判断一个数值为整数？
+     
 
   6. 如何判断一个数值为+0？
 
@@ -34,10 +46,16 @@
      'abc'.toUpperCase();
      #+END_SRC
 
+
+     解答： ‘abc’为原始类型，但会隐士的调用new String() 的方法，生成一个对象，
+           然后调用toUpperCase()方法，最后再转换为原始类型的'abx'
+
   8. 判断以下结果
      #+BEGIN_SRC javascript
      Array.isArray(Array.prototype);
      #+END_SRC
+
+     解答： 返回为false
 
   9. 判断以下结果
      #+BEGIN_SRC javascript
@@ -50,11 +68,21 @@
      42 == true;
      #+END_SRC
 
+     解答：  Boolean(Boolean(false));  // true 
+            Boolean(document.all);   // true
+ 
+            [] == ''; // false
+            [3] == 3; // false 
+            [] == false; // false
+            42 == true; // false
+
   10. 找出以下代码问题(TDZ)
       #+BEGIN_SRC javascript
       var a = 3;
       let a;
       #+END_SRC
+
+      解答：重复定义变量
 
   11. 找出以下代码问题(TDZ)
       #+BEGIN_SRC javascript
@@ -65,6 +93,8 @@
       
       foo();
       #+END_SRC
+      
+      解答：
 
 * scope & closures
 
@@ -82,11 +112,15 @@
      }
      #+END_SRC
 
+     解答：调用函数checkscope后结果为'local scope'
+
   3. 判断以下结果(Hoisting)
      #+BEGIN_SRC javascript
      console.log(a);
      var a = 3;
      #+END_SRC
+
+     解答：3 
 
   4. 判断以下结果(Function First)
      #+BEGIN_SRC javascript
@@ -94,6 +128,8 @@
      function foo() {}
      console.log(foo);
      #+END_SRC
+
+     解答：1
 
   5. 判断以下结果(IIFE & Function First)
      #+BEGIN_SRC javascript
@@ -107,6 +143,8 @@
      console.log(foo);
      #+END_SRC
 
+     解答：依次返回 2 ， 1
+
   6. 判断以下结果，如何按序输出(Closure)
      #+BEGIN_SRC javascript
      for (var i = 0; i < 10; i++) {
@@ -115,6 +153,8 @@
        }, i * 1000);
      }
      #+END_SRC
+
+     解答：返回为10个9； 如果需要按序输出可以将var 改为let
 
 * this & object prototypes
   1. 判断以下结果(Default Binding)
@@ -127,6 +167,8 @@
      
      foo();
      #+END_SRC
+     
+     解答：'undefined'
 
   2. 判断以下结果
      #+BEGIN_SRC javascript
@@ -134,6 +176,8 @@
      var a = 2;
      console.log(this);
      #+END_SRC
+
+     解答：window
 
   3. 判断以下结果(strict mode & default binding)
      #+BEGIN_SRC javascript
@@ -147,6 +191,8 @@
      })();
      #+END_SRC
 
+     解答：2
+
   4. 判断以下结果(hard binding)
      #+BEGIN_SRC javascript
      function foo() {
@@ -157,12 +203,16 @@
 
      foo.bind(o1).bind(o2)();
      #+END_SRC
+     
+     解答：3
 
   5. 如何实现
      #+BEGIN_SRC javascript
      Function.prototype.bind
      Function.prototype.softBind
      #+END_SRC
+     
+     解答：
 
   6. new 的过程中发生了什么, 判断以下结果(new)
      #+BEGIN_SRC javascript
@@ -176,14 +226,31 @@
      console.log(f.a);
      #+END_SRC
 
+     解答：4
+
   7. 什么是data descriptor 和 accessor descriptor?
+
+     解答：
 
   8. 如何访问一个对象的属性与如何对一个对象的属性赋值(Get & Put)?
 
-  9. 如何遍历一个对象(iterator)?
+     解答：
 
+  9. 如何遍历一个对象(iterator)?
+  
+     解答：调用函数 entries() 
   10. 如何实现一个继承(Object.create & call)?
+
+     解答：Object.entries()
 
   11. 如何实现 __proto__?
 
+    解答：function My(){}
+         var my = new My()
+         my.__proto__ = My.prototype
+
   12. 如何实现Object.create?
+
+    解答：Object.prototype.create = function(){
+       return new Object()
+    }
