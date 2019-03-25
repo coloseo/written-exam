@@ -1,0 +1,167 @@
+//第一题
+var reverse = function(strIn,pos,strOut){
+if(pos<0)
+return;
+strOut+=strIn.charAt(pos--);
+reverse(strIn,pos,strOut);
+};
+//第二题
+不太会
+//第三题
+ function mergeSort(arr) {
+   var len = arr.length;
+  if(len > 1) {
+     var index = Math.floor(len / 2);
+    left = arr.slice(0,index); 
+     right = arr.slice(index);  
+     return merge(mergeSort(left) , mergeSort(right));  
+  }else {
+     return arr;
+   }
+ }
+ 
+ function merge(left , right) { 
+   var arr = [];
+   while(left.length && right.length) {
+     if(left[0] < right[0]) {
+       arr.push(left.shift());
+    }else {
+       arr.push(right.shift())
+    }
+  }
+  return arr.concat(left , right);
+ }
+//第四题
+var array=[{
+    "name": "张三",
+    "serial": "0001"
+  }, {
+    "name": "李四",
+    "serial": "0002"
+  }, {
+    "name": "王五",
+    "serial": "0003"
+  }, {
+    "name": "王五2",
+    "serial": "0003"
+  }, {
+    "name": "赵四",
+    "serial": "0004"
+  }, {
+    "name": "小明",
+    "serial": "005"
+  }, {
+    "name": "小张",
+    "serial": "006"
+  }, {
+    "name": "小李",
+    "serial": "006"
+  }, {
+    "name": "小李2",
+    "serial": "006"
+  }, {
+    "name": "赵四2",
+    "serial": "0004"
+  }];
+  function uniqueArr(array, key){
+  var result = [array[0]];
+  for(var i = 1; i < array.length; i++){
+    var item = array[i];
+    var repeat = false;
+    for (var j = 0; j < result.length; j++) {
+      if (item[key] == result[j][key]) {
+        repeat = true;
+        break;
+      }
+    }
+    if (!repeat) {
+      result.push(item);
+    }
+  }
+  return result;
+}
+  uniqueArr(array,"serial");
+ //第五题
+var arr=[
+    {
+      "id": "1",
+      "name": "中国",
+      "code": "110",
+      "parent": ""
+    },
+    {
+      "id": "2",
+      "name": "北京市",
+      "code": "110000",
+      "parent": "110"
+    },
+    {
+      "id": "3",
+      "name": "河北省",
+      "code": "130000",
+      "parent": "110"
+    },
+    {
+      "id": "4",
+      "name": "四川省",
+      "code": "510000",
+      "parent": "110"
+    },
+    {
+      "id": "5",
+      "name": "石家庄市",
+      "code": "130001",
+      "parent": "130000"
+    },
+    {
+      "id": "6",
+      "name": "唐山市",
+      "code": "130002",
+      "parent": "130000"
+    },
+    {
+      "id": "7",
+      "name": "邢台市",
+      "code": "130003",
+      "parent": "130000"
+    },
+    {
+      "id": "8",
+      "name": "成都市",
+      "code": "510001",
+      "parent": "510000"
+    },
+    {
+      "id": "9",
+      "name": "简阳市",
+      "code": "510002",
+      "parent": "510000"
+    },
+    {
+      "id": "10",
+      "name": "武侯区",
+      "code": "51000101",
+      "parent": "510001"
+    },
+    {
+      "id": "11",
+      "name": "金牛区",
+      "code": "51000102",
+      "parent": "510001"
+    }
+  ];
+ function fn(data,pid){
+     var result = [] , temp;
+     for(var i in data){
+          if(data[i].parent==parent){
+               result.push(data[i]);
+               temp = fn(data,data[i].id); 
+               if(temp.length>0){
+                       data[i].children=temp;
+                } 
+         } else{
+         	 result.push(data[i]);
+         }
+    }
+return result;
+}
