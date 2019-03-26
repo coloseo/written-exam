@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # ren
 # 3:用归并排序将3，1，4，1，5，9，2，6 排序。
 from heapq import merge

@@ -1,20 +1,21 @@
+# -*- coding: utf-8 -*-
 # ren
 # 5:把下面给出的扁平化json数据用递归的方式改写成组织树的形式
 
 
 def get_vlues(dic):
-    parents = {k.get("code"): k.get("parent") for k in josn_list}
+    parents = {k.get("code"): k.get("parent") for k in json_list}
     if dic.get("code") not in parents.values():
         return dic
     else:
         dic["child"] = []
-        for v in josn_list:
+        for v in json_list:
             if v.get("parent") == dic.get("code"):
                 dic["child"].append(get_vlues(v))
     return dic
 
 
-josn_list = [
+json_list = [
     {
         "id": "1",
         "name": "中国",
@@ -83,4 +84,4 @@ josn_list = [
     }
 ]
 
-print(get_vlues(josn_list[0]))
+print(get_vlues(json_list[0]))

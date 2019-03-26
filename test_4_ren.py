@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # ren
 # 4：对下面的 json 字符串 serial 相同的进行去重。
 
