@@ -16,7 +16,6 @@ def expr(args):
     print(eval(expression[::-1]))
 
 
-if __name__ == '__main__':
-    str_expr = input()
-    args = str_expr.split(" ")[1:]
-    expr(args)
+str_expr = input()
+args = str_expr.split(" ")[1:]
+expr(args)
