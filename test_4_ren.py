@@ -3,16 +3,16 @@
 
 
 def foo():
-    values = {_.get("serial") for _ in joon_list}
+    values = {_.get("serial") for _ in json_list}
     new_list = []
-    for v in joon_list:
+    for v in json_list:
         if v.get("serial") in values:
             values.remove(v.get("serial"))
             new_list.append(v)
     return new_list
 
 
-joon_list = [{
+json_list = [{
     "name": "张三",
     "serial": "0001"
   }, {
