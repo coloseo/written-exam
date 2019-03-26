@@ -1,7 +1,7 @@
 # ren
 # 4：对下面的 json 字符串 serial 相同的进行去重。
 
-my_list = [{
+joon_list = [{
     "name": "张三",
     "serial": "0001"
   }, {
@@ -35,14 +35,13 @@ my_list = [{
 
 
 def foo():
-    values = {_.get("serial") for _ in my_list}
+    values = {_.get("serial") for _ in joon_list}
     new_list = []
-    for v in my_list:
+    for v in joon_list:
         if v.get("serial") in values:
             values.remove(v.get("serial"))
             new_list.append(v)
     return new_list
 
 
-if __name__ == '__main__':
-    print(foo())
+print(foo())
