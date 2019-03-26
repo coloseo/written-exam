@@ -1,8 +1,6 @@
 # coding=utf-8
 
 
-import sys
-
 
 def expr(args):
     calc_list = list(set(args) & {"+", "-", "*", "%"})
