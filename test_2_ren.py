@@ -12,7 +12,6 @@ def expr(args):
         singn = signs.pop(0)
         expression += singn
         expression += numbers[-1]
-    print(expression)
     print(eval(expression[::-1]))
 
 
