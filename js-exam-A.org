@@ -3,32 +3,41 @@
      #+BEGIN_SRC javascript
      var s = 'abc';
      s[1] = 'B';
-     
+
      console.log(s);
+     // 'abc'
 
      var l = new String('abc');
      l[1] = 'B';
      console.log(l);
      #+END_SRC
-
+    // String{"abc"}
   2. 如何逆序一个字符串？
-
+String str="asdfghjkl";
+for (int i = str.length()-1; i >= 0; i--) {
+    System.out.print(str.charAt(i));
+}
   3. 接上，为什么不能直接使用
      #+BEGIN_SRC javascript
      Array.prototype.reverse.call(str)
      #+END_SRC
      逆序字符串？
-
+  // reverse() 方法会改变原数组
   4. 判断以下结果，为什么会出现这样的情况，如何做出正确的比较？
      #+BEGIN_SRC javascript
-     0.1 + 0.2 === 0.3;
-     0.8 - 0.6 === 0.3;
+     0.1 + 0.2 === 0.3;  // false
+     0.8 - 0.6 === 0.3;  // false
      #+END_SRC
 
   5. 如何判断一个数值为整数？
-
+   public static boolean isInteger(String str) {
+      Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+      return pattern.matcher(str).matches();
+  }
   6. 如何判断一个数值为+0？
-
+   function isNegativeZero(num) {  
+      return num === 0 && (1 / num < 0); // 1与+0的商为正无穷
+   }
   7. 以下代码中'abc'作为primitive value, 如何访问toUpperCase 方法?
      #+BEGIN_SRC javascript
      'abc'.toUpperCase();
@@ -38,7 +47,7 @@
      #+BEGIN_SRC javascript
      Array.isArray(Array.prototype);
      #+END_SRC
-
+     // true
   9. 判断以下结果
      #+BEGIN_SRC javascript
      Boolean(Boolean(false));
@@ -49,12 +58,13 @@
      [] == false;
      42 == true;
      #+END_SRC
-
+     // false
   10. 找出以下代码问题(TDZ)
       #+BEGIN_SRC javascript
       var a = 3;
       let a;
       #+END_SRC
+      // a 重复声明
 
   11. 找出以下代码问题(TDZ)
       #+BEGIN_SRC javascript
@@ -65,7 +75,7 @@
       
       foo();
       #+END_SRC
-
+     // foo( b = ..)  未声明
 * scope & closures
 
   1. var a = 2 中, Engine, Scope, Compiler 做了什么工作?
@@ -81,20 +91,20 @@
          return f;
      }
      #+END_SRC
-
+     // local scope
   3. 判断以下结果(Hoisting)
      #+BEGIN_SRC javascript
      console.log(a);
      var a = 3;
      #+END_SRC
-
+    // undefined
   4. 判断以下结果(Function First)
      #+BEGIN_SRC javascript
      var foo = 1;
      function foo() {}
      console.log(foo);
      #+END_SRC
-
+   // 1
   5. 判断以下结果(IIFE & Function First)
      #+BEGIN_SRC javascript
      var foo = 1;
@@ -106,7 +116,8 @@
      })()
      console.log(foo);
      #+END_SRC
-
+   // 2
+   // 1
   6. 判断以下结果，如何按序输出(Closure)
      #+BEGIN_SRC javascript
      for (var i = 0; i < 10; i++) {
@@ -115,7 +126,7 @@
        }, i * 1000);
      }
      #+END_SRC
-
+   // 10
 * this & object prototypes
   1. 判断以下结果(Default Binding)
      #+BEGIN_SRC javascript
@@ -124,17 +135,17 @@
        console.log(this.a);
      }
      var a = 2;
-     
+
      foo();
      #+END_SRC
-
+     // a 未定义
   2. 判断以下结果
      #+BEGIN_SRC javascript
      "use strict"
      var a = 2;
      console.log(this);
      #+END_SRC
-
+     // window { ... }
   3. 判断以下结果(strict mode & default binding)
      #+BEGIN_SRC javascript
      function foo() {
@@ -146,7 +157,7 @@
        foo();
      })();
      #+END_SRC
-
+     // 2
   4. 判断以下结果(hard binding)
      #+BEGIN_SRC javascript
      function foo() {
@@ -157,7 +168,7 @@
 
      foo.bind(o1).bind(o2)();
      #+END_SRC
-
+   // 3
   5. 如何实现
      #+BEGIN_SRC javascript
      Function.prototype.bind
@@ -175,15 +186,31 @@
      const f = new F();
      console.log(f.a);
      #+END_SRC
-
+     // 4
   7. 什么是data descriptor 和 accessor descriptor?
 
   8. 如何访问一个对象的属性与如何对一个对象的属性赋值(Get & Put)?
 
   9. 如何遍历一个对象(iterator)?
-
+     for (Iterator i =list.iterator(); i.hasNext();) {
+            int str = (int) i.next();
+            System.out.print(str);
+        } 
   10. 如何实现一个继承(Object.create & call)?
 
   11. 如何实现 __proto__?
-
+      __proto__属性是一个指针，指向构造函数中的prototype的属性
   12. 如何实现Object.create?
+    var father = {
+      getName: function() {
+        return this.name;
+      }
+   }
+ 
+   var child = Object.create(father, {
+      name: { value: "child"},
+      sex : { value: "boy"}
+   });
+ 
+   console.log(child);
+   console.log(child.getName());
