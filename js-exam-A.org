@@ -8,53 +8,69 @@
 
      var l = new String('abc');
      l[1] = 'B';
-     console.log(l);
+     console.log(l);//abc
      #+END_SRC
 
-  2. 如何逆序一个字符串？
+  2. 如何逆序一个字符串？//先将字符串用split()方法转换为一个数组，再用reverse方法逆转，最后用join方法变回字符串。
 
   3. 接上，为什么不能直接使用
      #+BEGIN_SRC javascript
      Array.prototype.reverse.call(str)
      #+END_SRC
-     逆序字符串？
+     逆序字符串？//因为reverse是数组方法，不能直接操作字符串。
 
   4. 判断以下结果，为什么会出现这样的情况，如何做出正确的比较？
      #+BEGIN_SRC javascript
-     0.1 + 0.2 === 0.3;
-     0.8 - 0.6 === 0.3;
+     0.1 + 0.2 === 0.3;//false  原因：在JS中采用双精度标准，计算机内部存储数据的编码的时候，0.1在计算机内部根本就不是精确的0.1，而是一个有舍入误差的0.1。
+     0.8 - 0.6 === 0.3;//false 解决方法：将浮点数转化成整数进行计算。
      #+END_SRC
 
   5. 如何判断一个数值为整数？
-
+  function isInteger(num) {
+      if (!isNaN(num) && num % 1 === 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   6. 如何判断一个数值为+0？
-
+function isNegativeZero(num) {  
+    if (num !== 0) return false;
+    var obj = {};
+    Object.defineProperty(obj, 'num', { value: -0, configurable: false }); // 将对象设置为，不可配置
+    try {
+        Object.defineProperty(obj, 'num', { value: num }); // 因为对象是不可配置的，所以若改变了对象num键对应的value，就会报错。利用这种特性，来判断参数num是否为-0
+    } catch (e) {  
+        return false  
+    };  
+    return true;  
+}  
   7. 以下代码中'abc'作为primitive value, 如何访问toUpperCase 方法?
      #+BEGIN_SRC javascript
-     'abc'.toUpperCase();
+     'abc'.toUpperCase();//ABC
      #+END_SRC
 
   8. 判断以下结果
      #+BEGIN_SRC javascript
-     Array.isArray(Array.prototype);
+     Array.isArray(Array.prototype);//ture
      #+END_SRC
 
   9. 判断以下结果
      #+BEGIN_SRC javascript
-     Boolean(Boolean(false));
-     Boolean(document.all);
+     Boolean(Boolean(false));//false
+     Boolean(document.all);//false
 
-     [] == '';
-     [3] == 3;
-     [] == false;
-     42 == true;
+     [] == '';//ture
+     [3] == 3;//ture
+     [] == false;//ture
+     42 == true;false
      #+END_SRC
 
   10. 找出以下代码问题(TDZ)
       #+BEGIN_SRC javascript
       var a = 3;
       let a;
-      #+END_SRC
+      #+END_SRC//重复申请变量
 
   11. 找出以下代码问题(TDZ)
       #+BEGIN_SRC javascript
@@ -63,7 +79,7 @@
         // ..
       }
       
-      foo();
+      foo();//报错，b没有被定义
       #+END_SRC
 
 * scope & closures
@@ -76,15 +92,15 @@
      function checkscope() {
          var scope = 'local scope';
          function f() {
-           return scope;
+           return scope;//函数内调用返回'local scope'
          }
-         return f;
+         return f;//要是外边调用此函数的话会形成闭包，返回的是全局变量'global scope'
      }
      #+END_SRC
 
   3. 判断以下结果(Hoisting)
      #+BEGIN_SRC javascript
-     console.log(a);
+     console.log(a);//undefined
      var a = 3;
      #+END_SRC
 
@@ -92,7 +108,7 @@
      #+BEGIN_SRC javascript
      var foo = 1;
      function foo() {}
-     console.log(foo);
+     console.log(foo);//1
      #+END_SRC
 
   5. 判断以下结果(IIFE & Function First)
@@ -102,16 +118,16 @@
        foo = 2;
        function foo (){
        }
-       console.log(foo);
+       console.log(foo);//2
      })()
-     console.log(foo);
+     console.log(foo);//1
      #+END_SRC
 
   6. 判断以下结果，如何按序输出(Closure)
      #+BEGIN_SRC javascript
      for (var i = 0; i < 10; i++) {
        setTimeout(function () {
-         console.log(i);
+         console.log(i);//连续打印10个10
        }, i * 1000);
      }
      #+END_SRC
@@ -125,14 +141,14 @@
      }
      var a = 2;
      
-     foo();
+     foo();//使用严格模式，代码报错，a未定义
      #+END_SRC
 
   2. 判断以下结果
      #+BEGIN_SRC javascript
      "use strict"
      var a = 2;
-     console.log(this);
+     console.log(this);//window对象
      #+END_SRC
 
   3. 判断以下结果(strict mode & default binding)
@@ -143,7 +159,7 @@
      var a = 2;
      (function(){
        "use strict"
-       foo();
+       foo();//2
      })();
      #+END_SRC
 
@@ -155,7 +171,7 @@
      const o1 = { a: 3 };
      const o2 = { a: 4 };
 
-     foo.bind(o1).bind(o2)();
+     foo.bind(o1).bind(o2)();//3
      #+END_SRC
 
   5. 如何实现
@@ -173,7 +189,7 @@
        }
      }
      const f = new F();
-     console.log(f.a);
+     console.log(f.a);//4 new的过程：1. 创建一个新对象；2.将构造函数的作用域赋给新对象（因此 this 就指向了这个新对象；3.执行构造函数中的代码（为这个新对象添加属性；4.返回新对象
      #+END_SRC
 
   7. 什么是data descriptor 和 accessor descriptor?
@@ -181,8 +197,20 @@
   8. 如何访问一个对象的属性与如何对一个对象的属性赋值(Get & Put)?
 
   9. 如何遍历一个对象(iterator)?
+  Object.keys(obj).forEach((value, index) => {
+    console.log(value, index);
+})
 
   10. 如何实现一个继承(Object.create & call)?
+    function B(b){
+         this.b = b;
+     }
+     function A(a,b){
+         B.call(this,b)
+         this.a = a;
+     }
+     A.prototype = Object.assign({},B.prototype)
+     A.prototype.constructor = A;
 
   11. 如何实现 __proto__?
 
