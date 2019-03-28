@@ -50,15 +50,15 @@ for (int i = str.length()-1; i >= 0; i--) {
      // true
   9. 判断以下结果
      #+BEGIN_SRC javascript
-     Boolean(Boolean(false));
-     Boolean(document.all);
+     Boolean(Boolean(false)); // false
+     Boolean(document.all);   // false
 
-     [] == '';
-     [3] == 3;
-     [] == false;
-     42 == true;
+     [] == '';                // true
+     [3] == 3;                // true
+     [] == false;             // true
+     42 == true;              // false
      #+END_SRC
-     // false
+
   10. 找出以下代码问题(TDZ)
       #+BEGIN_SRC javascript
       var a = 3;
