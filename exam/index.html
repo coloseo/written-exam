@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>测试题</title>
+	</head>
+	<body>
+
+		<script type="text/javascript">
+			//1.编写一个递归版本的 reverse(s) 函数(或方法),以将字符串s倒置。
+			/* #include<stdio.h>
+
+			void reverse(char * p);
+			main() {
+				char s[10];
+				gets(s);
+				reverse(s);
+			}
+			void reverse(char * p) {
+				if ( * p == '\0')
+					return;
+				reverse(p + 1);
+				printf("%c", * p);
+			} */
+			2. 编写程序 expr， 以计算从命令行输入的逆波兰表达式的值， 其中每个运算符或操作数用一个单独的参数表示。 例如， 命令 expr 2 3 4 + *
+
+				def check_parens(text):
+				parens = "([{}])"
+			opposite = {
+				")": "(",
+				"]": "[",
+				"}": "{"
+			}#
+			s = ListStack()
+			s = LinkStack()
+
+			for ch in filter(lambda x: x in parens, text):
+				if ch in parens[: 3]:
+				s.push(ch)
+			elif s.is_empty() or opposite[ch] != s.pop():
+				return False
+			else :
+				return s.is_empty()
+
+
+			text = "({ [ f ] () }{})()"
+			print(check_parens(text))
+
+
+			from StackClass
+			import ListStack, LinkStack
+
+
+			def translate(line): #转换为逆波兰表达式
+			operators = "()+-*/"
+			priority = {
+				"(": 1,
+				"+": 2,
+				"-": 2,
+				"*": 3,
+				"/": 3
+			}
+			s = ListStack()
+			exp = []# 用来存储逆波兰表达式
+
+			def tokens(line):
+				i, tlen = 0, len(line)
+			while i < tlen:
+				while line[i].isspace(): #去除多余空格
+			i += 1
+			if i >= tlen:
+				break
+
+			if line[i] in operators: #处理运算符
+			yield line[i]
+			i += 1
+			else :#处理运算对象
+			j = i + 1
+			while (j < tlen and not line[j].isspace() and line[j] not in operators):
+				if (line[j] in ('e', 'E') and j + 1 < tlen and line[j + 1] == '-'): #处理负指数
+			j += 1
+			j += 1
+			yield line[i: j]
+			i = j
+
+			for x in tokens(line):
+				if x not in operators:
+				exp.append(x)
+			elif s.is_empty() or x == "(":
+				s.push(x)
+			elif x == ")":
+				while not s.is_empty() and s.top() != "(":
+				exp.append(s.pop())
+			if s.is_empty():
+				raise SyntaxError("Missing '('.")
+			s.pop()# 左括号出栈
+			else :
+				while (not s.is_empty() and priority[s.top()] >= priority[x]):
+					exp.append(s.pop())
+			s.push(x)# 运算符入栈
+
+			while not s.is_empty():
+				if s.top() == "(":
+				raise SyntaxError("Extra '('.")
+			exp.append(s.pop())
+
+			return exp
+
+
+			def compValue(exp): #求逆波兰表达式的值
+			operators = "+-*/"
+			s = ListStack()
+
+			for x in exp:
+				if x not in operators:
+				s.push(float(x))
+			continue
+
+			if len(s) < 2:
+				raise StackUnderflow("Short of operand(s).")
+			b = s.pop()
+			a = s.pop()
+
+			if x == "+":
+				c = a + b
+			elif x == "-":
+				c = a - b
+			elif x == "*":
+				c = a * b
+			elif x == "/":
+				c = a / b
+
+			s.push(c)
+
+			if len(s) != 1:
+				raise StackUnderflow("Extra operand(s).")
+			return s.pop()
+
+
+			def main():
+				while True:
+				try:
+				line = input("请输入算术表达式：")
+			if line.strip() == "": return
+			res = compValue(translate(line))
+			print(line, "=", res)
+			except Exception as ex:
+				print("Error:", type(ex), ex.args)
+
+			text = "30*(1.5+2.5) - 600/6"
+			print(translate(text), "=", compValue(translate(text)))
+			main()
+			//3.用归并排序将3，1，4，1，5，9，2，6 排序。
+
+			/* function mergeSort(arr) {
+				var len = arr.length,
+					arrleft = [],
+					arrright = [],
+					gap = 1,
+					maxgap = len - 1,
+					gapArr = [],
+					glen, n;
+				while (gap < maxgap) {
+					gap = Math.pow(2, n);
+					if (gap <= maxgap) {
+						gapArr.push(gap);
+					}
+					n++;
+				}
+				glen = gapArr.length;
+				for (var i = 0; i < glen; i++) {
+					gap = gapArr[i];
+					for (var j = 0; j < len; j = j + gap * 2) {
+						arrleft = arr.slice(j, j + gap);
+						arrright = arr.slice(j + gap, j + gap * 2);
+						console.log("left:" + arrleft, "right:" + arrright);
+						arr = arr.slice(0, j).concat(subSort(arrleft, arrright), arr.slice(j + gap * 2));
+					}
+				}
+				return arr;
+			}
+			var arr = [3，1，4，1，5，9，2，6 ];
+			mergeSort(arr) */
+			//4.对下面的 json 字符串 serial 相同的进行去重。
+
+			function unique(arr, attribute) {
+				var new_arr = [];
+				var json_arr = [];
+				for (var i = 0; i < arr.length; i++) {
+					//console.log(new_arr.indexOf(arr[i][attribute]));
+					if (new_arr.indexOf(arr[i][attribute]) == -1) { //  -1代表没有找到
+						new_arr.push(arr[i][attribute]); //如果没有找到就把这个name放到arr里面，以便下次循环时用
+						json_arr.push(arr[i]);
+					} else {}
+				}
+				return json_arr;
+			}
+
+			var json = [{
+				"name": "张三",
+				"serial": "0001"
+			}, {
+				"name": "李四",
+				"serial": "0002"
+			}, {
+				"name": "王五",
+				"serial": "0003"
+			}, {
+				"name": "王五2",
+				"serial": "0003"
+			}, {
+				"name": "赵四",
+				"serial": "0004"
+			}, {
+				"name": "小明",
+				"serial": "005"
+			}, {
+				"name": "小张",
+				"serial": "006"
+			}, {
+				"name": "小李",
+				"serial": "006"
+			}, {
+				"name": "小李2",
+				"serial": "006"
+			}, {
+				"name": "赵四2",
+				"serial": "0004"
+			}];
+			var new_json = unique(json, "serial")
+			console.log(new_json);
+
+			5. 把下面给出的扁平化json数据用递归的方式改写成组织树的形式
+
+			var s = [{
+					"id": "1",
+					"name": "中国",
+					"code": "110",
+					"parent": ""
+				},
+				{
+					"id": "2",
+					"name": "北京市",
+					"code": "110000",
+					"parent": "110"
+				},
+				{
+					"id": "3",
+					"name": "河北省",
+					"code": "130000",
+					"parent": "110"
+				},
+				{
+					"id": "4",
+					"name": "四川省",
+					"code": "510000",
+					"parent": "110"
+				},
+				{
+					"id": "5",
+					"name": "石家庄市",
+					"code": "130001",
+					"parent": "130000"
+				},
+				{
+					"id": "6",
+					"name": "唐山市",
+					"code": "130002",
+					"parent": "130000"
+				},
+				{
+					"id": "7",
+					"name": "邢台市",
+					"code": "130003",
+					"parent": "130000"
+				},
+				{
+					"id": "8",
+					"name": "成都市",
+					"code": "510001",
+					"parent": "510000"
+				},
+				{
+					"id": "9",
+					"name": "简阳市",
+					"code": "510002",
+					"parent": "510000"
+				},
+				{
+					"id": "10",
+					"name": "武侯区",
+					"code": "51000101",
+					"parent": "510001"
+				},
+				{
+					"id": "11",
+					"name": "金牛区",
+					"code": "51000102",
+					"parent": "510001"
+				}
+			];
+			function Tree(s){
+    let ind = 0 ; //判断第一层是不是还有子树
+    if(s.length>1){
+        for(let i=0;i<s.length;i++){
+            let a = 0;  //计数信号量
+            for(let j=i+1;j<s.length;j++){
+                if(s[j].parent == s[i].code){//判断是否有子树
+                    a++;  //子树计数
+                    ind++;
+                }
+            }
+            if(a == 0&&s[i].parent!=''){ //没有子树，即树的最底层
+                for(let n in s){
+                //定义children，避免undefined
+                    s[n].children = s[n].children?s[n].children:[];
+                    if(s[n].code == s[i].parent){
+                        s[n].children.push(s[i]);
+                    }
+                }
+                s.splice(i,1);//删除，该子树已经加入了某项底层
+                i--; //删掉子树后后面的数据会填补空缺，退一步才能遍历完全
+            }
+        }
+        if(ind != 0){ //如果还有子树继续遍历第一层
+            Tree(s);
+        }
+    }
+    return s;
+}
+function handleTree(s){ 
+    s = Tree(s);
+    console.log(s);
+    return s;
+}
+
+		</script>
+
+	</body>
+</html>
