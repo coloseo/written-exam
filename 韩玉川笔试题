@@ -7,6 +7,33 @@
     }
     var a="98784654";
     console.log(reverse(a));
+//第二题
+    function calc(expr) {
+        var item;
+        var arr = [];
+        while (item = expr.split(' ').shift()) {
+            if (!isNaN(item)) {
+                arr.push(item);
+            } else {
+                var result = count(item, arr.pop(), arr.pop());
+                arr.push(result);
+            }
+        }
+    }
+    function count (number, num2, num1) {
+            switch (number) {
+                case '+':
+                    return num2 + num1;
+                case '-':
+                    return num2 - num1;
+                case '*':
+                    return num2 * num1;
+                case '/':
+                    return num2 / num1;
+            }
+        }
+    var exp=readline();
+    console.log(calc(exp));
     //第三题
     function guibing(left, right) {
         var result = [];
