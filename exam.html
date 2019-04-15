@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>笔试题</title>
+</head>
+<body>
+
+</body>
+<script>
+
+    //1、递归实现字符串反转
+
+    console.log(reverse("zhoubin"));
+    console.log(arrReverse('hello'));
+
+    function reverse(s) {
+        if (s === "") {
+            return "";
+        } else {
+            var a = s.substr(1);
+            var b = s.substr(0,1);
+            return reverse(s.substr(1)) + s.substr(0,1);
+        }
+    }
+
+
+    //个人偏向于这种方式，也更加方便，我第一反应想到的是这个。老实说，递归真的不是太熟。
+    function arrReverse(s) {
+        return s.split('').reverse().join('');
+    }
+
+
+    //2、编写指定程序，命令行操作
+
+        //不好意思，作为前端，这个真的没接触到了，需要继续学习
+
+    console.log(expr('2 3 4 + *'));
+
+    function expr(expr) {
+        if (!expr) return 0;  //字符串为空，返回0
+        var arr = expr.split(' ');
+        var elems = [];
+        var item;
+        while (item = arr.shift()) {  //item为表达式字符串首个位子的值得字符串格式
+            if (!isNaN(+item)) {
+                //如果是数字，则push,这里使用+将字符串转换成数字
+                elems.push(+item)
+            } else {
+                //如果是运算符，则出栈两位数字计算，并且将计算结果放回栈内
+                var res = count(item, elems.pop(), elems.pop());
+                elems.push(res)
+            }
+        }
+        //  运算符计算
+        function count (opera, num1, num2) {
+            switch (opera) {
+                case '+':
+                    return num2 + num1;
+                case '-':
+                    return num2 - num1;
+                case '*':
+                    return num2 * num1;
+                case '/':
+                    return num2 / num1;
+            }
+        }
+        return elems.pop(); //返回最后的计算值
+    }
+
+    //3、用归并排序将3，1，4，1，5，9，2，6 排序
+    
+        var arr3 = [3,1,4,1,5,9,2,6];
+
+
+
+        //我偏向于这种排序
+        console.log(arr3.sort(function (a, b) { return a-b; }));
+
+
+    //4、json字符串依据特定属性重复值的进行去重
+
+        //此处直接定义的json，字符串可以使用JSON.parse()或者eval()转换成json对象
+        var json1 = [{
+                "name" : "张三",
+                "serial" : "0001"
+            },
+            {
+                "name" : "李四",
+                "serial" : "0002"
+            },
+            {
+                "name" : "王五",
+                "serial" : "0003"
+            },{
+                "name" : "王五2",
+                "serial" : "0003"
+            },{
+                "name" : "赵四",
+                "serial" : "0004"
+            },{
+                "name" : "小明",
+                "serial" : "005"
+            },{
+                "name" : "小张",
+                "serial" : "006"
+            },{
+                "name" : "小李",
+                "serial" : "006"
+            },{
+                "name" : "小李2",
+                "serial" : "006"
+            },{
+                "name" : "赵四2",
+                "serial" : "0004"
+            }];
+
+    console.log(uniqueJSON(json1,"serial"));
+
+
+    function uniqueJSON(json, key) {
+        if (!json.length) {
+          console.log("这是一个空的json");
+          return;
+        }
+        var result = [json[0]];   //结果数组，初始放入第一个元素
+        for (var i = 1; i < json.length; i++) {
+            var item = json[i];  //当前观察的值
+            var repeat = false;
+            for (var j = 0; j < result.length; j++) {
+                if (item[key] === result[j][key]) {
+                    repeat = true;
+                    break;
+                }
+            }
+            if (!repeat) {
+                result.push(item);
+            }
+        }
+        return result;
+    }
+
+    //5、扁平化json转树形
+    var json2 =[{
+        "id": "1",
+        "name": "中国",
+        "code": "110",
+        "parent": ""
+    },
+    {
+        "id": "2",
+        "name": "北京市",
+        "code": "110000",
+        "parent": "110"
+    },
+    {
+        "id": "3",
+        "name": "河北省",
+        "code": "130000",
+        "parent": "110"
+    },
+    {
+        "id": "4",
+        "name": "四川省",
+        "code": "510000",
+        "parent": "110"
+    },
+    {
+        "id": "5",
+        "name": "石家庄市",
+        "code": "130001",
+        "parent": "130000"
+    },
+    {
+        "id": "6",
+        "name": "唐山市",
+        "code": "130002",
+        "parent": "130000"
+    },
+    {
+        "id": "7",
+        "name": "邢台市",
+        "code": "130003",
+        "parent": "130000"
+    },
+    {
+        "id": "8",
+        "name": "成都市",
+        "code": "510001",
+        "parent": "510000"
+    },
+    {
+        "id": "9",
+        "name": "简阳市",
+        "code": "510002",
+        "parent": "510000"
+    },
+    {
+        "id": "10",
+        "name": "武侯区",
+        "code": "51000101",
+        "parent": "510001"
+    },
+    {
+        "id": "11",
+        "name": "金牛区",
+        "code": "51000102",
+        "parent": "510001"
+    }
+    ];
+
+
+    console.log(buildTree(json2));
+
+    function buildTree(list) {
+        let temp = {};
+        let tree = {};
+        for (let i in list) {
+            temp[list[i].code] = list[i];  //按照code的值把list重组，给temp赋值为以code值为key，code对应对象为值的对象
+        }
+        for (let i in temp) {
+            if (temp[i].parent) {
+                //检测对象存在parent
+                if (!temp[temp[i].parent].children) {
+                    //检测对象的parent对应的对象没有children属性就创建children属性
+                    temp[temp[i].parent].children = new Object();
+                }
+                //将检测对象的parent的children属性中设置以这个检测对象code为key，该检测对象为值
+                temp[temp[i].parent].children[temp[i].code] = temp[i];
+            } else {
+                //如果这个对象没有parent属性，则将它的code值为key，对象为值放入最终的tree
+                tree[temp[i].code] = temp[i];
+            }
+        }
+        return tree;
+
+    }
+</script>
+</html>
