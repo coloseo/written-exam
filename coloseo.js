@@ -1,79 +1,63 @@
-# 笔试题  
+// 1. 编写一个递归版本的 reverse(s) 函数(或方法),以将字符串s倒置。
+function reverse(s) {
+    if (typeof s !== 'string') return;
+    if (s.length <= 1) return s;
+    return reverse(s.slice(1)) + s.charAt(0);
+}
 
-请完成以下笔试题，可以使用自己擅长的语言来编写，通过 github pull request 提交代码。
+console.log(reverse('asdj123'));
 
-1. 编写一个递归版本的 reverse(s) 函数(或方法),以将字符串s倒置。
+// 2 编写程序 expr，以计算从命令行输入的逆波兰表达式的值，其中每个运算符或操作数用一个单独的参数表示。例如，命令 expr 2 3 4 + *
+var expStr = '2 3 4 + *';
+function calc(oprator, num1, num2) {
+    switch(oprator) {
+        case '+': return num1 + num2;
+        case '-': return num1 - num2;
+        case '*': return num1 * num2;
+        case '/': return num1 / num2;
+    }
+}
+function expr(expStr) {
+    var expArr = expStr.split(' ');
+    var numbers = [];
+    for (var i = 0; i < expArr.length; i++) {
+        if (!isNaN(parseInt(expArr[i], 10))) {
+            numbers.push(parseInt(expArr[i], 10));
+        } else {
+            var num = calc(expArr[i], numbers.pop(), numbers.pop());
+            numbers.push(num);
+        }
+    }
+    return numbers.pop();
+}
+console.log(expr(expStr));
 
-   ```javascript
-   function reverse(s) {
-       if (typeof s !== 'string') return;
-       if (s.length <= 1) return s;
-       return reverse(s.slice(1)) + s.charAt(0);
-   }
-   // test
-   console.log(reverse('asdj123')); // 321jdsa
-   ```
+// 3用归并排序将3，1，4，1，5，9，2，6 排序。
+var arr = [3, 1, 4, 1, 5, 9, 2, 6];
 
-2. 编写程序 expr，以计算从命令行输入的逆波兰表达式的值，其中每个运算符或操作数用一个单独的参数表示。例如，命令
-  expr 2 3 4 + *
+function merge(leftArr, rightArr) {
+    var res = [];
+    while ( leftArr.length > 0 && rightArr.length > 0) {
+        if (leftArr[0] <= rightArr[0]) {
+            res.push(leftArr.shift());
+        } else {
+            res.push(rightArr.shift());
+        }
+    }
+    return res.concat(leftArr).concat(rightArr);
+}
 
-  ```javascript
-  var expStr = '2 3 4 + *';
-  function calc(oprator, num1, num2) {
-      switch(oprator) {
-          case '+': return num1 + num2;
-          case '-': return num1 - num2;
-          case '*': return num1 * num2;
-          case '/': return num1 / num2;
-      }
-  }
-  function expr(expStr) {
-      var expArr = expStr.split(' ');
-      var numbers = [];
-      for (var i = 0; i < expArr.length; i++) {
-          if (!isNaN(parseInt(expArr[i], 10))) {
-              numbers.push(parseInt(expArr[i], 10));
-          } else {
-              var num = calc(expArr[i], numbers.pop(), numbers.pop());
-              numbers.push(num);
-          }
-      }
-      return numbers.pop();
-  }
-  // test
-  console.log(expr(expStr)); // 14
-  ```
+function mergeSort(arr) {
+    if (arr.length <= 1) return arr;
+    var mid = Math.floor(arr.length / 2);
+    return merge(mergeSort(arr.slice(0, mid)), mergeSort(arr.slice(mid)));
+}
 
-3. 用归并排序将3，1，4，1，5，9，2，6 排序。
+console.log(mergeSort(arr));
 
-   ```javascript
-   var arr = [3, 1, 4, 1, 5, 9, 2, 6];
-   
-   function merge(leftArr, rightArr) {
-       var res = [];
-       while ( leftArr.length > 0 && rightArr.length > 0) {
-           if (leftArr[0] <= rightArr[0]) {
-               res.push(leftArr.shift());
-           } else {
-               res.push(rightArr.shift());
-           }
-       }
-       return res.concat(leftArr).concat(rightArr);
-   }
-   
-   function mergeSort(arr) {
-       if (arr.length <= 1) return arr;
-       var mid = Math.floor(arr.length / 2);
-       return merge(mergeSort(arr.slice(0, mid)), mergeSort(arr.slice(mid)));
-   }
-   // test
-   console.log(mergeSort(arr)); // [ 1, 1, 2, 3, 4, 5, 6, 9 ]
-   ```
-
-4. 对下面的 json 字符串 serial 相同的进行去重。
-
-```javascript
-  [{
+// 4对下面的 json 字符串 serial 相同的进行去重。
+var test = [
+    {
     "name": "张三",
     "serial": "0001"
   }, {
@@ -105,8 +89,6 @@
     "serial": "0004"
   }];
 
-```
-```javascript
 function unique(arr) {
     var res = [];
     var temp = [];
@@ -122,12 +104,11 @@ function unique(arr) {
     }
     return res;
 }
-```
 
-5. 把下面给出的扁平化json数据用递归的方式改写成组织树的形式
+console.log(unique(test));
 
-```javascript
-  [
+// 5把下面给出的扁平化json数据用递归的方式改写成组织树的形式
+var testJson = [
     {
       "id": "1",
       "name": "中国",
@@ -194,9 +175,7 @@ function unique(arr) {
       "code": "51000102",
       "parent": "510001"
     }
-  ];
-```
-```javascript
+  ]; 
 function json2tree(testJson) {
     var temp = {};
     var tree = {};
@@ -217,4 +196,4 @@ function json2tree(testJson) {
     }
     return tree;
 }
-```
+console.log(json2tree(testJson));
