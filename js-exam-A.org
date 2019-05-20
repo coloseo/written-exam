@@ -4,40 +4,50 @@
      var s = 'abc';
      s[1] = 'B';
      
-     console.log(s);
+     console.log(s); // 'abc'
 
      var l = new String('abc');
      l[1] = 'B';
-     console.log(l);
+     console.log(l); // 字符串包装对象的'abc'
      #+END_SRC
 
   2. 如何逆序一个字符串？
+     // js函数，使用字符串splite()方法得到一个字符数组，调用数组reverse()方法，在调用数组join()方法
+     // 逆序读取，创建一个新的字符串
 
   3. 接上，为什么不能直接使用
      #+BEGIN_SRC javascript
      Array.prototype.reverse.call(str)
      #+END_SRC
      逆序字符串？
+     // 输入的参数类型不一致
 
   4. 判断以下结果，为什么会出现这样的情况，如何做出正确的比较？
      #+BEGIN_SRC javascript
      0.1 + 0.2 === 0.3;
      0.8 - 0.6 === 0.3;
      #+END_SRC
+     // js浮点数运算问题，js浮点数由64位符号位，整数位，小数位确定，
+     // 我们看到的0.1和0.2在实际表示中并非精确值，在计算之后和0.3之间由插值
+     // 解决办法，明确小数位的舍入，因为在较短的小数位上能够正确表示
 
   5. 如何判断一个数值为整数？
+     // 使用数学函数总的舍入函数，如果和原值相等即整数
 
   6. 如何判断一个数值为+0？
+     // 使用表达式 num === 0 && 1/num > 0判断，首先确定是零，然后判断符号
 
   7. 以下代码中'abc'作为primitive value, 如何访问toUpperCase 方法?
      #+BEGIN_SRC javascript
      'abc'.toUpperCase();
      #+END_SRC
+     // 自动包装成String类型，调用String原型上的函数
 
   8. 判断以下结果
      #+BEGIN_SRC javascript
      Array.isArray(Array.prototype);
      #+END_SRC
+     // true
 
   9. 判断以下结果
      #+BEGIN_SRC javascript
@@ -49,12 +59,20 @@
      [] == false;
      42 == true;
      #+END_SRC
+     // true
+     // true
+     // true
+     // true
+     // true
+     // false
+     // 对象都为真值，数组和string比较调用valueof
 
   10. 找出以下代码问题(TDZ)
       #+BEGIN_SRC javascript
       var a = 3;
       let a;
       #+END_SRC
+      // let不允许重复声明，没有变量提升，var允许重复声明，可以变量提升
 
   11. 找出以下代码问题(TDZ)
       #+BEGIN_SRC javascript
@@ -65,10 +83,12 @@
       
       foo();
       #+END_SRC
+      // 默认参数定义不规范，外面定义的变量b无法影响内部的b的定义，使得b在等式右边使用出错
 
 * scope & closures
 
   1. var a = 2 中, Engine, Scope, Compiler 做了什么工作?
+     // 引擎执行这段代码，遇到变量表示，向编译器询问作用域是否存在变量，是何值，作用域用于变量的管理
 
   2. 判断以下结果(lexical scope)
      #+BEGIN_SRC javascript
@@ -81,12 +101,14 @@
          return f;
      }
      #+END_SRC
+     // 首先代码只是返回了闭包但是没有执行，假设沿着作用域链看，那么闭包首先访问的将是包裹它的函数作用域内的scope
 
   3. 判断以下结果(Hoisting)
      #+BEGIN_SRC javascript
      console.log(a);
      var a = 3;
      #+END_SRC
+     // undefined 变量提升
 
   4. 判断以下结果(Function First)
      #+BEGIN_SRC javascript
@@ -94,6 +116,7 @@
      function foo() {}
      console.log(foo);
      #+END_SRC
+     // 1， 函数声明被覆盖
 
   5. 判断以下结果(IIFE & Function First)
      #+BEGIN_SRC javascript
@@ -106,6 +129,7 @@
      })()
      console.log(foo);
      #+END_SRC
+     // 2, 1
 
   6. 判断以下结果，如何按序输出(Closure)
      #+BEGIN_SRC javascript
@@ -115,6 +139,8 @@
        }, i * 1000);
      }
      #+END_SRC
+     // 使用let关键字
+     // 套一层函数，传递参数
 
 * this & object prototypes
   1. 判断以下结果(Default Binding)
@@ -127,6 +153,7 @@
      
      foo();
      #+END_SRC
+     // 报错 严格模式 this指向undefined，所以出现属性找不到的错误
 
   2. 判断以下结果
      #+BEGIN_SRC javascript
@@ -134,6 +161,7 @@
      var a = 2;
      console.log(this);
      #+END_SRC
+     // 全局对象
 
   3. 判断以下结果(strict mode & default binding)
      #+BEGIN_SRC javascript
@@ -146,6 +174,7 @@
        foo();
      })();
      #+END_SRC
+     // 2
 
   4. 判断以下结果(hard binding)
      #+BEGIN_SRC javascript
@@ -157,12 +186,14 @@
 
      foo.bind(o1).bind(o2)();
      #+END_SRC
+    // 3
 
   5. 如何实现
      #+BEGIN_SRC javascript
      Function.prototype.bind
      Function.prototype.softBind
      #+END_SRC
+     // 通过闭包实现，其中硬绑定函数将绑定后无法修改，而通过软绑定可以灵活的再次更改
 
   6. new 的过程中发生了什么, 判断以下结果(new)
      #+BEGIN_SRC javascript
@@ -175,15 +206,24 @@
      const f = new F();
      console.log(f.a);
      #+END_SRC
+     // 1.创建一个新对象，2.将新对象指向原型，3.将this指向新对象，4.如果没有返回，就返回这个对象
 
   7. 什么是data descriptor 和 accessor descriptor?
+     // ......
 
   8. 如何访问一个对象的属性与如何对一个对象的属性赋值(Get & Put)?
+     // 使用Object.defineProperty
 
   9. 如何遍历一个对象(iterator)?
+     // 通过symbol.iterator接口查看对象是否可以迭代
 
   10. 如何实现一个继承(Object.create & call)?
+     // 在Object.create中传入要继承的原型
+     // 使用组合寄生的方式实现继承
+     // class extends实现继承
 
   11. 如何实现 __proto__?
+     // 作为一个属性，具有getter和setter方法，使得可以访问和设置[[prototype]]
 
   12. 如何实现Object.create?
+     // 构造一个函数，判断参数，创建新的对象，将对象原型指向传入的参数，实例化该构造函数的一个对象返回
