@@ -1,0 +1,254 @@
+* types & grammar
+  1. 判断以下结果
+     #+BEGIN_SRC javascript
+     var s = 'abc';
+     s[1] = 'B';
+     
+     console.log(s);
+
+     var l = new String('abc');
+     l[1] = 'B';
+     console.log(l);
+     #+END_SRC
+	 #+ abc  String{'abc'}
+
+  2. 如何逆序一个字符串？
+	#+先把字符串转化为数组，然后用数组中逆序的方法，在转化为字符串即可。
+	#+例如：var str = 'abc'; str = str.split('').reverse().join('');
+
+  3. 接上，为什么不能直接使用
+     #+BEGIN_SRC javascript
+     Array.prototype.reverse.call(str)
+     #+END_SRC
+     逆序字符串？
+	 #+ 因为这个方法是数组对象原型上的方法必须得把str转化为数组才可以
+	 #+ Array.prototype.reverse.call(str.split('')).join('');
+
+  4. 判断以下结果，为什么会出现这样的情况，如何做出正确的比较？
+     #+BEGIN_SRC javascript
+     0.1 + 0.2 === 0.3;
+     0.8 - 0.6 === 0.3;
+     #+END_SRC
+	 #+ false false 
+	 #+ js中的数字使用的是国际标准 IEEE 754，因为js是弱类型语言，为了方便省事，所有的数字都是以64位浮点数形式存储。也就是说，js语言底层根本没有整数，所有数字都是小数（64位浮点数）
+	 #+ 整数算起来没问题，但是计算小数的时候就有问题了。
+	 #+ 解决 1. (0.1*10+0.2*10)/10 ===0.3   2.parseFloat((0.1+0.2).toFixed(10)) === 0.3;
+
+  5. 如何判断一个数值为整数？
+	#+ 求余 如果结果===0则为整数   var a = 4; console.log(a%1 === 0);
+
+  6. 如何判断一个数值为+0？
+	#+ function foo(n){ return n === 0 && 1/n === Infinity}
+
+  7. 以下代码中'abc'作为primitive value, 如何访问toUpperCase 方法?
+     #+BEGIN_SRC javascript
+     'abc'.toUpperCase();
+     #+END_SRC
+	 #+ 'ABC'
+
+  8. 判断以下结果
+     #+BEGIN_SRC javascript
+     Array.isArray(Array.prototype);
+     #+END_SRC
+	 #+ true
+
+  9. 判断以下结果
+     #+BEGIN_SRC javascript
+     Boolean(Boolean(false));
+     Boolean(document.all);
+
+     [] == '';
+     [3] == 3;
+     [] == false;
+     42 == true;
+     #+END_SRC
+	 #+ false false true true true false
+
+  10. 找出以下代码问题(TDZ)
+      #+BEGIN_SRC javascript
+      var a = 3;
+      let a;
+      #+END_SRC
+	  #+ let 对于已经定义过的变量不可以再次定义。
+
+  11. 找出以下代码问题(TDZ)
+      #+BEGIN_SRC javascript
+      var b = 3;
+      function foo(a = 42, b = a + b + 5) {
+        // ..
+      }
+      
+      foo();
+      #+END_SRC
+	  #+ b is not defined
+
+* scope & closures
+
+  1. var a = 2 中, Engine, Scope, Compiler 做了什么工作?
+	
+
+  2. 判断以下结果(lexical scope)
+     #+BEGIN_SRC javascript
+     var scope = 'global scope';
+     function checkscope() {
+         var scope = 'local scope';
+         function f() {
+           return scope;
+         }
+         return f;
+     }
+     #+END_SRC
+	 #+ 直接输出scope的话是'global scope' 调用函数后的话是'local scope'
+
+  3. 判断以下结果(Hoisting)
+     #+BEGIN_SRC javascript
+     console.log(a);
+     var a = 3;
+     #+END_SRC
+	 #+ undefined
+
+  4. 判断以下结果(Function First)
+     #+BEGIN_SRC javascript
+     var foo = 1;
+     function foo() {}
+     console.log(foo);
+     #+END_SRC
+	 #+ 1
+	 
+  5. 判断以下结果(IIFE & Function First)
+     #+BEGIN_SRC javascript
+     var foo = 1;
+     (function () {
+       foo = 2;
+       function foo (){
+       }
+       console.log(foo);
+     })()
+     console.log(foo);
+     #+END_SRC
+	 #+ 2 1
+
+  6. 判断以下结果，如何按序输出(Closure)
+     #+BEGIN_SRC javascript
+     for (var i = 0; i < 10; i++) {
+       setTimeout(function () {
+         console.log(i);
+       }, i * 1000);
+     }
+     #+END_SRC
+	 #+ 10次11
+
+* this & object prototypes
+  1. 判断以下结果(Default Binding)
+     #+BEGIN_SRC javascript
+     function foo() {
+       "use strict"
+       console.log(this.a);
+     }
+     var a = 2;
+     
+     foo();
+     #+END_SRC
+	 #+ 报错
+
+  2. 判断以下结果
+     #+BEGIN_SRC javascript
+     "use strict"
+     var a = 2;
+     console.log(this);
+     #+END_SRC
+	 #+ window对象
+
+  3. 判断以下结果(strict mode & default binding)
+     #+BEGIN_SRC javascript
+     function foo() {
+       console.log(this.a);
+     }
+     var a = 2;
+     (function(){
+       "use strict"
+       foo();
+     })();
+     #+END_SRC
+	 #+ 2
+
+  4. 判断以下结果(hard binding)
+     #+BEGIN_SRC javascript
+     function foo() {
+       console.log(this.a);
+     }
+     const o1 = { a: 3 };
+     const o2 = { a: 4 };
+
+     foo.bind(o1).bind(o2)();
+     #+END_SRC
+	 #+ 3
+
+  5. 如何实现
+     #+BEGIN_SRC javascript
+     Function.prototype.bind
+     Function.prototype.softBind
+     #+END_SRC
+	 #+ 
+
+  6. new 的过程中发生了什么, 判断以下结果(new)
+     #+BEGIN_SRC javascript
+     function F() {
+       this.a = 3;
+       return {
+         a: 4
+       }
+     }
+     const f = new F();
+     console.log(f.a);
+     #+END_SRC
+	 #+ 4
+
+  7. 什么是data descriptor 和 accessor descriptor?
+
+  8. 如何访问一个对象的属性与如何对一个对象的属性赋值(Get & Put)?
+	#+ 用. 可以获取到，赋值的话用. 然后再给它赋值
+	#+ 用get 与 set 也可以
+  9. 如何遍历一个对象(iterator)?
+	#+ var arr = [1,2,3,4]; let iterator = arr[Symbol.iterator](); iterator.next();
+	#+ 类似于c语言的指针，一次一次的向后执行，一般是结合for of 来遍历
+	
+  10. 如何实现一个继承(Object.create & call)?
+	#+ function Parent(){var a = 1;}  function Child(){Parent.call(this);} Parent.prototype = Object.create(Parent.prototype);
+  11. 如何实现 __proto__?
+	#+ Object.defineProperty(Object.prototype, '__proto__', {
+		get() {
+		let _thisObj = Object (this);
+		return Object.getPrototypeOf(_thisObj);
+	},
+	set(proto) {
+		if (this === undefined || this === null) {
+			throw new TypeError();
+		}
+		if (!isObject(this)) {
+			return undefined;
+		}
+		if (!isObject(proto)) {
+			return undefined;
+		}
+		let status = Reflect.setPrototypeOf(this, proto);
+		if(!status) {
+			throw new TypeError();
+		}
+	},
+	});
+	function isObject(value) {
+		return Object(value) === value;
+	#+ }
+	
+  12. 如何实现Object.create?
+	#+ Object.CREATE= function (obj, properties) {
+		function F () {}
+		F.prototype = obj;
+		let o = new F();
+		// 注意Object.create可以传入第二个参数，是一个对象，但格式必须是Object.defineProperties()方法一样
+		if (typeof properties === 'object') {
+			Object.defineProperties(o, properties);
+		}
+		return o;
+	#+ }
