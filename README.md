@@ -8,11 +8,26 @@
 expr 2 3 4 + *
 
 3. 用归并排序将3，1，4，1，5，9，2，6 排序。
+function quickSort(arr){
+          if (!arr.length) { return arr}
+          var left = [];
+          var right = [];
 
+          var middle = arr.splice(Math.floor(arr.length/2),1)[0];//拿到
+          
+           for (var i = 0; i < arr.length; i++) {
+               if(arr[i]>=middle){
+                  right.push(arr[i])
+               }else{
+                  left.push(arr[i])
+               }
+           }
+           return quickSort(left).concat([middle],quickSort(right))
+     }
 4. 对下面的 json 字符串 serial 相同的进行去重。
 
 ```javascript
-  [{
+  var arr=[{
     "name": "张三",
     "serial": "0001"
   }, {
@@ -44,6 +59,14 @@ expr 2 3 4 + *
     "serial": "0004"
   }];
 ```
+答案：var value=[];
+      var obj = {};
+      for(var i = 0;i < arr.length;i ++){
+        if(!obj[arr[i].serial]){
+          value.push(arr[i]);
+          obj[arr[i].serial] = true;
+        }
+      }
 
 5. 把下面给出的扁平化json数据用递归的方式改写成组织树的形式
 
@@ -117,3 +140,29 @@ expr 2 3 4 + *
     }
   ];
 ```
+function getTree(data, root, pushTxt) {
+
+    var pushTxt = pushTxt || 'child';
+    // 递归方法
+    function getNode(id) {
+      var node = []
+      for (var i = 0; i < data.length; i++) {
+        if (data[i]['parent'] == id) {
+          data[i][pushTxt] = getNode(data[i]['code'])
+          node.push(data[i])
+        }
+      }
+      if (node.length == 0) {
+        return
+      } else {
+        return node
+      }
+    }
+    // 使用根节点
+    return getNode(root)
+  }
+
+
+   //压栈的，压在上面并执行，当遇到执行结束，或者遇到return再把执行权交给下一个
+    getTree(arr5,'110')
+

@@ -5,40 +5,49 @@
      s[1] = 'B';
      
      console.log(s);
+答案：abc
 
      var l = new String('abc');
      l[1] = 'B';
      console.log(l);
      #+END_SRC
-
+答案：{
+        0：'a',
+        1: 'b',
+        2: 'c'
+     }
   2. 如何逆序一个字符串？
-
+答案：var str = 'abc';
+     str=str.split().reverse().join('')
   3. 接上，为什么不能直接使用
      #+BEGIN_SRC javascript
      Array.prototype.reverse.call(str)
      #+END_SRC
      逆序字符串？
-
+答案：不清楚
   4. 判断以下结果，为什么会出现这样的情况，如何做出正确的比较？
      #+BEGIN_SRC javascript
      0.1 + 0.2 === 0.3;
      0.8 - 0.6 === 0.3;
      #+END_SRC
-
+答案：JavaScript使用的是IEEE754的双精度标准，十进制转为计算机识别的二进制时会出现无限循环的小数，这个机制会保留15位小数，再这个过程中就会发生精度丢失
+      使用((0.1 + 0.2).toFixed(10))解决
   5. 如何判断一个数值为整数？
-
+答案：parseInt（）
   6. 如何判断一个数值为+0？
-
+答案：function isZero(n){
+   return n === 0 && 1/n = infinity
+}
   7. 以下代码中'abc'作为primitive value, 如何访问toUpperCase 方法?
      #+BEGIN_SRC javascript
      'abc'.toUpperCase();
      #+END_SRC
-
+答案：ABC
   8. 判断以下结果
      #+BEGIN_SRC javascript
      Array.isArray(Array.prototype);
      #+END_SRC
-
+答案：true
   9. 判断以下结果
      #+BEGIN_SRC javascript
      Boolean(Boolean(false));
@@ -49,13 +58,15 @@
      [] == false;
      42 == true;
      #+END_SRC
-
+答案：false、true、false、true
   10. 找出以下代码问题(TDZ)
       #+BEGIN_SRC javascript
       var a = 3;
       let a;
       #+END_SRC
-
+答案：var是es5的声明变量的，在编译的时候回提升变量，可覆盖
+     let是es6新增的块级作用域，在编译时不会将变量提升，不可覆盖
+     此题中使用let时不能声明已经有的变量
   11. 找出以下代码问题(TDZ)
       #+BEGIN_SRC javascript
       var b = 3;
@@ -65,11 +76,11 @@
       
       foo();
       #+END_SRC
-
+答案：在JavaScript编译时，函数的提升优于变量的提升，所以函数的参数b未被声明，报错
 * scope & closures
 
   1. var a = 2 中, Engine, Scope, Compiler 做了什么工作?
-
+答案：声明变量时，Compiler把输入的字符串分解为一些对编程语言有意义的代码块，Scope将代码块生成抽象语法树，Engine转为可执行的代码
   2. 判断以下结果(lexical scope)
      #+BEGIN_SRC javascript
      var scope = 'global scope';
@@ -81,20 +92,20 @@
          return f;
      }
      #+END_SRC
-
+答案：undefined（函数未被调用，checkscope()()=>local scope）
   3. 判断以下结果(Hoisting)
      #+BEGIN_SRC javascript
      console.log(a);
      var a = 3;
      #+END_SRC
-
+答案：3（变量提升）
   4. 判断以下结果(Function First)
      #+BEGIN_SRC javascript
      var foo = 1;
      function foo() {}
      console.log(foo);
      #+END_SRC
-
+答案：1(在编译JavaScript时，会创建一个AO对象，函数声明会覆盖形参foo： function foo() {}，在执行JavaScript文件时foo=1，覆盖 function foo() {}，此时foo：1)
   5. 判断以下结果(IIFE & Function First)
      #+BEGIN_SRC javascript
      var foo = 1;
@@ -106,7 +117,7 @@
      })()
      console.log(foo);
      #+END_SRC
-
+答案：2、1（全局变量）
   6. 判断以下结果，如何按序输出(Closure)
      #+BEGIN_SRC javascript
      for (var i = 0; i < 10; i++) {
@@ -115,7 +126,7 @@
        }, i * 1000);
      }
      #+END_SRC
-
+答案：隔1s打印10（如果隔1s打印1-10的数，则使用闭包，将i传给闭包函数）
 * this & object prototypes
   1. 判断以下结果(Default Binding)
      #+BEGIN_SRC javascript
@@ -127,14 +138,14 @@
      
      foo();
      #+END_SRC
-
+答案：使用严格模式时，编译时函数提升优于变量提升，this.a找不到变量a，就会报错
   2. 判断以下结果
      #+BEGIN_SRC javascript
      "use strict"
      var a = 2;
      console.log(this);
      #+END_SRC
-
+答案：window对象
   3. 判断以下结果(strict mode & default binding)
      #+BEGIN_SRC javascript
      function foo() {
@@ -146,7 +157,7 @@
        foo();
      })();
      #+END_SRC
-
+答案：2
   4. 判断以下结果(hard binding)
      #+BEGIN_SRC javascript
      function foo() {
@@ -157,13 +168,13 @@
 
      foo.bind(o1).bind(o2)();
      #+END_SRC
-
+答案：3
   5. 如何实现
      #+BEGIN_SRC javascript
      Function.prototype.bind
      Function.prototype.softBind
      #+END_SRC
-
+答案：this.click=this.click.bind(this)
   6. new 的过程中发生了什么, 判断以下结果(new)
      #+BEGIN_SRC javascript
      function F() {
@@ -175,15 +186,35 @@
      const f = new F();
      console.log(f.a);
      #+END_SRC
-
+答案：因为实例对象的时候使用的是const f，const 声明的是一个常量，且这个常量必须赋值，否则会报错，如果想要拿到f.a的值这里应该使用var f = new F()
   7. 什么是data descriptor 和 accessor descriptor?
-
+答案：不清楚
   8. 如何访问一个对象的属性与如何对一个对象的属性赋值(Get & Put)?
-
+答案：不清楚
   9. 如何遍历一个对象(iterator)?
-
+答案：iterator是es6新增的一个遍历数组和对象的方法的接口，来处理所有不同的数据结构，主要供for...of消费，使用的时候要通过es6新增的数据类型symbol部署（Symbol.iterator）
   10. 如何实现一个继承(Object.create & call)?
-
+答案：function country(name,type){
+			this.name = name,
+			this.type = type
+		}
+      country.prototype.famous=function(){}
+		function china(name,type,color){
+			country.call(this,name,type,color);
+			this.color = color
+		}
+      china.prototype=object.create(country.prototype)
+      var Chinese=new china()
   11. 如何实现 __proto__?
-
+答案：function a (){....}
+     a.prototype.b=function(){}
+     var c = {...}
+     c.__proto = a.prototype
+     a.call(c)
   12. 如何实现Object.create?
+答案：const animal={
+   name：'dog',
+   age:'18'
+}
+const erHa = Object.create(animal);
+console.log(erHa.__proto__)=>animal里面的值
