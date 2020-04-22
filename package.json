@@ -1,0 +1,23 @@
+{
+  "name": "written-exam",
+  "version": "1.0.0",
+  "description": "请完成以下笔试题，可以使用自己擅长的语言来编写，通过 github pull request 提交代码。",
+  "main": "myBind.js",
+  "dependencies": {
+    "promises-aplus-tests": "^2.1.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node test_myPromise.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhangyunhai210/written-exam.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhangyunhai210/written-exam/issues"
+  },
+  "homepage": "https://github.com/zhangyunhai210/written-exam#readme"
+}
