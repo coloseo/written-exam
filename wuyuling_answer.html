@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>笔试</title>
+  <script>
+    // 1.递归实现字符串反转。
+    function re(s) {
+      console.log(s);
+      if(s.length == 1) {
+        return s;
+      }else {
+        var s1 = s.substring(1);
+        return re(s1)+s[0];
+      }
+    }
+    console.log(re("1234567"));
+
+
+
+
+
+
+    //2.
+    function expr(arr = []){
+      if (!arr) {
+        return 0;
+      }
+      var tempArr = arr.split(' ')
+      var elems = [];
+      let item = '';
+      while (item = tempArr.shift) {
+        if (!isNaN(+item)) {
+          elems.push(+item)
+        } else {
+          var res = count(item, elems.pop, elems.pop)
+          elems.push(res)
+          }
+        }
+    }
+    count = (opera, num1, num2) => {
+      switch (opera) {
+        case '+':
+          return num2 + num1
+        case '-':
+          return num2 - num1
+        case '*':
+          return num2 * num1
+        case '/':
+          return num2 / num1
+      }
+    }
+
+
+
+
+
+
+
+    //3.归并排序
+    function mergeSort(arr) {
+      const length = arr.length;
+      //判断数组长度是否为1，则停止递归
+      if (length === 1) { 
+          return arr;
+      }
+      const mid = Math.floor(length / 2);
+    
+      const left = arr.slice(0,  mid);
+      const right = arr.slice(mid, length);
+      //要将原始数组分割直至只有一个元素时，才开始归并
+      return merge(mergeSort(left), mergeSort(right)); 
+    }
+    function merge(left, right) {
+      const result = [];
+      let il = 0;
+      let ir = 0;
+
+      while( il < left.length && ir < right.length) {
+          if (left[il] < right[ir]) {
+              result.push(left[il]);
+              il++;
+          } else {
+              result.push(right[ir]);
+              ir++;
+          }
+          
+      }
+      //将left或right中剩余项加进来
+      while (il < left.length) { 
+          result.push(left[il]);
+          il++;
+      }
+      while(ir < right.length) {
+          result.push(right[ir]);
+          ir++;
+      }
+      return result;
+    }
+    console.log(mergeSort([3,1,4,1,5,9,2,6]))
+
+
+
+
+
+
+
+
+
+    //4.对象数组去重
+    let obj =[{
+      "name": "张三",
+      "serial": "0001"
+    }, {
+      "name": "李四",
+      "serial": "0002"
+    }, {
+      "name": "王五",
+      "serial": "0003"
+    }, {
+      "name": "王五2",
+      "serial": "0003"
+    }, {
+      "name": "赵四",
+      "serial": "0004"
+    }, {
+      "name": "小明",
+      "serial": "005"
+    }, {
+      "name": "小张",
+      "serial": "006"
+    }, {
+      "name": "小李",
+      "serial": "006"
+    }, {
+      "name": "小李2",
+      "serial": "006"
+    }, {
+      "name": "赵四2",
+      "serial": "0004"
+    }];
+    
+    let objt = {};
+    let resultObj = obj.reduce((pre,next) => {
+      objt[next.serial] ? "" : objt[next.serial] = true && pre.push(next);
+      return pre;
+    },[]);
+    console.log(resultObj);
+
+
+    //5.json转树形
+    function Tree(s){
+    let count = 0 ; 
+    if(s.length>1){
+        for(let i=0;i<s.length;i++){
+            let a = 0;  
+            for(let j=i+1;j<s.length;j++){
+                if(s[j].parent == s[i].code){
+                  //子树个数增加
+                    a++;  
+                    count++;
+                }
+            }
+            //判断是否为底树
+            if(a == 0 && s[i].parent!=''){ 
+                for(let n in s){
+                    s[n].children = s[n].children?s[n].children:[];
+                    if(s[n].code == s[i].parent){
+                        s[n].children.push(s[i]);
+                    }
+                }
+                s.splice(i,1);
+                i--;
+            }
+        }
+        if(count != 0){
+            Tree(s);
+        }
+    }
+    return s;
+}
+
+let obj =   [
+    {
+      "id": "1",
+      "name": "中国",
+      "code": "110",
+      "parent": ""
+    },
+    {
+      "id": "2",
+      "name": "北京市",
+      "code": "110000",
+      "parent": "110"
+    },
+    {
+      "id": "3",
+      "name": "河北省",
+      "code": "130000",
+      "parent": "110"
+    },
+    {
+      "id": "4",
+      "name": "四川省",
+      "code": "510000",
+      "parent": "110"
+    },
+    {
+      "id": "5",
+      "name": "石家庄市",
+      "code": "130001",
+      "parent": "130000"
+    },
+    {
+      "id": "6",
+      "name": "唐山市",
+      "code": "130002",
+      "parent": "130000"
+    },
+    {
+      "id": "7",
+      "name": "邢台市",
+      "code": "130003",
+      "parent": "130000"
+    },
+    {
+      "id": "8",
+      "name": "成都市",
+      "code": "510001",
+      "parent": "510000"
+    },
+    {
+      "id": "9",
+      "name": "简阳市",
+      "code": "510002",
+      "parent": "510000"
+    },
+    {
+      "id": "10",
+      "name": "武侯区",
+      "code": "51000101",
+      "parent": "510001"
+    },
+    {
+      "id": "11",
+      "name": "金牛区",
+      "code": "51000102",
+      "parent": "510001"
+    }
+  ];
+console.log(Tree(obj))
+  </script>
+
+
+</head>
+<body>
+  <span>笔试题解答（伍毓灵）</span>
+</body>
+</html>
