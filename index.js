@@ -21,30 +21,37 @@ function handleRes(s){
 expr = (arr = []) => {
     if (!arr) return 0; 
     var tempArr = arr.split(' ')
+    console.log(tempArr)
     var elems = [];
     let item = '';
-    while (item = tempArr.shift) {
-      if (!isNaN(+item)) {
-        elems.push(+item)
+     while (item = tempArr.shift()) {
+       if (!isNaN(item)) {
+        elems.push(item)
       } else {
-        var res = count(item, elems.pop, elems.pop)
-        elems.push(res)
-      }
-    }
+        var a = elems.shift()
+        var b = elems.shift()
+        var res = count(item, a, b)
+         elems.push(res)
+       }
+     }
+    console.log(elems)
   }
   
   count = (opera, num1, num2) => {
     switch (opera) {
       case '+':
-        return num2 + num1
+        return parseInt(num2)  + parseInt(num1)
       case '-':
-        return num2 - num1
+        return parseInt(num2)  - parseInt(num1)
       case '*':
-        return num2 * num1
+        return parseInt(num2)  * parseInt(num1)
       case '/':
-        return num2 / num1
+        return parseInt(num2)  / parseInt(num1)
     }
   }
+
+   expr('2 3 4 + *')
+
 //第三题
 function Merger(a, b){
     var n = a && a.length;
