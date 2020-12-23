@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="src/lib/fastjson-1.2.47.jar" sourcepath="E:/maven/repository/com/alibaba/fastjson/1.2.47/fastjson-1.2.47-sources.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
