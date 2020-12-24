@@ -3,11 +3,83 @@
 请完成以下笔试题，可以使用自己擅长的语言来编写，通过 github pull request 提交代码。
 
 1. 编写一个递归版本的 reverse(s) 函数(或方法),以将字符串s倒置。
+function reverse(arr,len){
+    if(len>1){
+        for(let i=0;i<len-1;i++){
+            let temp = arr[i];
+            arr[i] = arr[i+1];
+            arr[i+1] = temp;
+        }
+      
+        len--;
+        reverse(arr,len);
+    }
+    return arr;
+}
+function handleRes(s){
+    let arr = s.split('');
+    let len = arr.length;
+    let answer = reverse(arr,len).join('');
+    console.log('1、'+answer);
+    return answer;
+}
 
 2. 编写程序 expr，以计算从命令行输入的逆波兰表达式的值，其中每个运算符或操作数用一个单独的参数表示。例如，命令
 expr 2 3 4 + *
+	expr = (arr = []) => {
+	  if (!arr) return 0; 
+	  
+	  var tempArr = arr.split(' ')
+	  var elems = [];
+	  let item = '';
+	  while (item = tempArr.shift) {
+	    if (!isNaN(+item)) {
+	      elems.push(+item)
+	    } else {
+	      var res = count(item, elems.pop, elems.pop)
+	      elems.push(res)
+	    }
+	  }
+	}
+	count = (opera, num1, num2) => {
+	
+	  switch (opera) {
+	    case '+':
+	      return num2 + num1
+	    case '-':
+	      return num2 - num1
+	    case '*':
+	      return num2 * num1
+	    case '/':
+	      return num2 / num1
+	  }
+	}
+
 
 3. 用归并排序将3，1，4，1，5，9，2，6 排序。
+	mergeSort = () => {
+	  var arr = [3, 1, 4, 1, 5, 9, 2, 6];
+	
+	  if (arr.length === 1)
+	    return arr;
+	
+	  var mid = (a.length / 2), left = a.slice(0, mid), right = a.slice(mid);
+	
+	  return merge(mergeSort(left), mergeSort(right));
+	}
+	
+	merge = (left, right) => {
+	
+	  while (left.length && right.length) {
+	    if (left[0] < right[0])
+	      tmp.push(left.shift());
+	    else
+	      tmp.push(right.shift());
+	  }
+	
+	  return tmp.concat(left, right);
+	}
+
 
 4. 对下面的 json 字符串 serial 相同的进行去重。
 
@@ -44,6 +116,16 @@ expr 2 3 4 + *
     "serial": "0004"
   }];
 ```
+let newArr = [];
+	  for (let item of arr) {
+	    const { serial = '' } = item;
+	    const aaa = newArr.find(item => item.serial === serial);
+	    if (!aaa) {
+	      newArr.push(item);
+	    }
+	  }
+	  return newArr;
+	}
 
 5. 把下面给出的扁平化json数据用递归的方式改写成组织树的形式
 
@@ -117,3 +199,19 @@ expr 2 3 4 + *
     }
   ];
 ```
+transDate = (tree, idstr = 'id', pidstr = 'parent') => {
+	  let result = [], temp = {};
+	  for (i = 0; i < tree.length; i++) {
+	    temp[tree[i][idstr]] = tree[i];
+	  }
+	  for (j = 0; j < tree.length; j++) {
+	    tempVp = temp[tree[j][pidstr]];
+	    if (tempVp) {
+	      if (!tempVp["nodes"]) tempVp["nodes"] = [];
+	      tempVp["nodes"].push(tree[j]);
+	    } else {
+	      result.push(tree[j]);
+	    }
+	  }
+	  return result;
+	}  
