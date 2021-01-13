@@ -21,14 +21,33 @@
    
 
 2. 编写程序 expr，以计算从命令行输入的逆波兰表达式的值，其中每个运算符或操作数用一个单独的参数表示。例如，命令
-  expr 2 3 4 + *
+    expr 2 3 4 + *
 
 3. 用归并排序将3，1，4，1，5，9，2，6 排序。
 
 4. 对下面的 json 字符串 serial 相同的进行去重。
 
+     ```js
+     const unique = (arr) => {
+         let obj = {},result = [];
+         //取第一次出现的值
+         result = arr.reduce((item, next) => {
+             obj[next.serial] ? '' : obj[next.serial] = 1 && item.push(next);
+             return item
+         }, [])
+         //取后面重复的值
+         // arr.forEach(i => {
+         //     obj[i.serial] = i
+         // })
+         // result = Object.values(obj)
+         return result
+     }
+     ```
+
+     
+
 ```javascript
-  [{
+[{
     "name": "张三",
     "serial": "0001"
   }, {
@@ -58,7 +77,7 @@
   }, {
     "name": "赵四2",
     "serial": "0004"
-  }];
+ }];
 ```
 
 5. 把下面给出的扁平化json数据用递归的方式改写成组织树的形式
