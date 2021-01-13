@@ -82,6 +82,30 @@
 
 5. 把下面给出的扁平化json数据用递归的方式改写成组织树的形式
 
+   ```js
+   const convertToTreeData = (data, parent) => {
+       const result = []
+       let temp = []
+       for (let i = 0; i < data.length; i++) {
+           if (data[i].parent === parent) {
+               const obj = {
+                   'name': data[i].name,
+                   'code': data[i].code,
+                   'parent': data[i].parent,
+                   'id': data[i].id
+               }
+               temp = convertToTreeData(data, data[i].code)
+               if (temp.length > 0) obj.children = temp;
+               result.push(obj)
+           }
+       }
+       return result
+   }
+   console.log(convertToTreeData(data, ''))
+   ```
+
+   
+
 ```javascript
   [
     {
