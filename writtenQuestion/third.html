@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+
+      var group= [3, 1, 4, 1, 5, 9, 2, 6];
+     
+     function mergeSort(list) {
+        var length = list.length;
+         if(length==1){ //结束条件
+             return list;
+          }
+          var mid = Math.floor(length/2);
+          var left = list.slice(0,mid);
+          var right = list.slice(mid,length);
+        return merge(mergeSort(left),mergeSort(right));//递归
+    };
+    
+    function merge(left,right) {
+        var result = [];
+        var nl = 0;
+        var nr =0;
+        while(nl<left.length && nr<right.length){
+            if(left[nl]<right[nr]){
+                result.push(left[nl++]);
+            }else{
+                result.push(right[nr++]);
+            }
+    
+        }
+        while(nl<left.length){
+            result.push(left[nl++]);
+    
+        }
+        while(nr<right.length){
+            result.push(right[nr++]);
+    
+        }
+    
+        return result;
+    }
+    
+   console.log(mergeSort(group));
+</script>
+</html>

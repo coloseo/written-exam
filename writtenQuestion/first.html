@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+                         
+</body>
+<script>
+    var s = "The-harder-you-work,the-happier-you-are";
+    var s = reverse(s);
+    console.log(s);
+    function reverse(s){
+        var arr = s.split("")
+        changeStr(arr, arr.length);
+        return arr.join("");
+    }
+
+    function changeStr(arr,len){
+        if(len>1){
+            for(var i=0;i<len-1;i++){
+                var temp = arr[i];
+                arr[i] = arr[i+1];
+                arr[i+1] = temp;
+            }
+            len--;
+            changeStr(arr,len);
+        }
+    }
+
+</script>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    unique = () => {
+      let arr = [{
+        "name": "张三",
+        "serial": "0001"
+      }, {
+        "name": "李四",
+        "serial": "0002"
+      }, {
+        "name": "王五",
+        "serial": "0003"
+      }, {
+        "name": "王五2",
+        "serial": "0003"
+      }, {
+        "name": "赵四",
+        "serial": "0004"
+      }, {
+        "name": "小明",
+        "serial": "005"
+      }, {
+        "name": "小张",
+        "serial": "006"
+      }, {
+        "name": "小李",
+        "serial": "006"
+      }, {
+        "name": "小李2",
+        "serial": "006"
+      }, {
+        "name": "赵四2",
+        "serial": "0004"
+      }];
+      let newArr = [];
+      for (let item of arr) {
+        const { serial = '' } = item;
+        const same = newArr.find(item => item.serial === serial);
+        if (!same) {
+          newArr.push(item);
+        }
+      }
+      return newArr;
+    }
+    console.log(unique())
+</script>
+</html>
