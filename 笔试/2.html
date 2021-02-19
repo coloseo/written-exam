@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function calc(expr) {
+        if (!expr) return 0
+        var arr = expr.split(' ')
+        var elems = []
+        var item;
+        while (item = arr.shift()) { 
+            if (!isNaN(+item)) {  
+                elems.push(+item)
+            } else {
+                var res = count(item, elems.pop(), elems.pop())
+                elems.push(res)
+            }
+        }
+        function count (operator, num1, num2) {
+            switch (operator) {
+            case '+':
+                return num2 + num1
+            case '-':
+                return num2 - num1
+            case '*':
+                return num2 * num1
+            case '/':
+                return num2 / num1
+            }
+        }
+        return elems.pop()
+  }
+    console.log(calc('2 3 4 + *'))
+  </script>
+</body>
+</html>

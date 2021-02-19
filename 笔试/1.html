@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    let newS=''
+    function reverse(s){
+      let len=s.length
+      if(len===0){
+        return
+      }
+      newS+=s.slice(s.length-1,s.length)
+      
+      this.reverse(s.slice(0,s.length-1))
+    }
+    reverse('abcdefg')
+    console.log(newS)
+  </script>
+</body>
+</html>
