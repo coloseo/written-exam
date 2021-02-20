@@ -1,0 +1,242 @@
+* types & grammar
+  1. 判断以下结果
+     #+BEGIN_SRC javascript
+     var s = 'abc';
+     s[1] = 'B';
+
+     console.log(s);
+
+     var l = new String('abc');
+     l[1] = 'B';
+     console.log(l);
+     #+END_SRC
+     答：String 返回一个新的字符串，不会改变自身
+
+  2. 如何逆序一个字符串？
+ 答：str.split('').reverse().join('');
+
+  3. 接上，为什么不能直接使用
+     #+BEGIN_SRC javascript
+     Array.prototype.reverse.call(str)
+     #+END_SRC
+     逆序字符串？
+     答：当一个数组逆序时会改变本身
+
+  4. 判断以下结果，为什么会出现这样的情况，如何做出正确的比较？
+     #+BEGIN_SRC javascript
+     0.1 + 0.2 === 0.3;
+     0.8 - 0.6 === 0.3;
+     #+END_SRC
+     答：计算机不能精确表示这样的浮点数，应该使用bignumber.js
+
+  5. 如何判断一个数值为整数？
+  答：使用Math.round、Math.ceil、Math.floor判断
+
+  6. 如何判断一个数值为+0？
+  答：function isPosZero (n) {
+      return n === 0 && 1 / n === Infinity
+    }
+
+  7. 以下代码中'abc'作为primitive value, 如何访问toUpperCase 方法?
+     #+BEGIN_SRC javascript
+     'abc'.toUpperCase();
+     #+END_SRC
+     答：可以使用 Object.prototype.valueOf()
+
+  8. 判断以下结果
+     #+BEGIN_SRC javascript
+     Array.isArray(Array.prototype);
+     #+END_SRC
+     答：返回true
+
+  9. 判断以下结果
+     #+BEGIN_SRC javascript
+     Boolean(Boolean(false));
+     Boolean(document.all);
+
+     [] == '';
+     [3] == 3;
+     [] == false;
+     42 == true;
+     #+END_SRC
+     答：不会
+
+  10. 找出以下代码问题(TDZ)
+      #+BEGIN_SRC javascript
+      var a = 3;
+      let a;
+      #+END_SRC
+      答：let a 声明之前，不能使用 a
+
+  11. 找出以下代码问题(TDZ)
+      #+BEGIN_SRC javascript
+      var b = 3;
+      function foo(a = 42, b = a + b + 5) {
+        // ..
+      }
+
+      foo();
+      #+END_SRC
+      答：暂存死区
+
+* scope & closures
+
+  1. var a = 2 中, Engine, Scope, Compiler 做了什么工作?
+  答：不会
+
+  2. 判断以下结果(lexical scope)
+     #+BEGIN_SRC javascript
+     var scope = 'global scope';
+     function checkscope() {
+         var scope = 'local scope';
+         function f() {
+           return scope;
+         }
+         return f;
+     }
+     #+END_SRC
+     答：由于 js 作用域，访问某个变量时，先在当前作用域中查找。如果找不到，则报错。
+
+  3. 判断以下结果(Hoisting)
+     #+BEGIN_SRC javascript
+     console.log(a);
+     var a = 3;
+     #+END_SRC
+     答：undefined
+
+  4. 判断以下结果(Function First)
+     #+BEGIN_SRC javascript
+     var foo = 1;
+     function foo() {}
+     console.log(foo);
+     #+END_SRC
+     答：1 函数有提升，会被赋值覆盖。
+
+  5. 判断以下结果(IIFE & Function First)
+     #+BEGIN_SRC javascript
+     var foo = 1;
+     (function () {
+       foo = 2;
+       function foo (){
+       }
+       console.log(foo);
+     })()
+     console.log(foo);
+     #+END_SRC
+     答：2 1
+
+  6. 判断以下结果，如何按序输出(Closure)
+     #+BEGIN_SRC javascript
+     for (var i = 0; i < 10; i++) {
+       setTimeout(function () {
+         console.log(i);
+       }, i * 1000);
+     }
+     #+END_SRC
+     答：1秒 之后连续输出 10 个 10。因为没有块级作用域，把 var 改成 let。
+
+* this & object prototypes
+  1. 判断以下结果(Default Binding)
+     #+BEGIN_SRC javascript
+     function foo() {
+       "use strict"
+       console.log(this.a);
+     }
+     var a = 2;
+
+     foo();
+     #+END_SRC
+     答：报错，函数的严格模式下，默认绑定其中的 this 指向 undefined。
+
+  2. 判断以下结果
+     #+BEGIN_SRC javascript
+     "use strict"
+     var a = 2;
+     console.log(this);
+     #+END_SRC
+     答：undefined
+         var 声明的变量会被挂在 window 上
+
+  3. 判断以下结果(strict mode & default binding)
+     #+BEGIN_SRC javascript
+     function foo() {
+       console.log(this.a);
+     }
+     var a = 2;
+     (function(){
+       "use strict"
+       foo();
+     })();
+     #+END_SRC
+     答：2 只有存在 this 的函数中设置严格模式，正常输出。
+
+  4. 判断以下结果(hard binding)
+     #+BEGIN_SRC javascript
+     function foo() {
+       console.log(this.a);
+     }
+     const o1 = { a: 3 };
+     const o2 = { a: 4 };
+
+     foo.bind(o1).bind(o2)();
+     #+END_SRC
+     答：3 bind 绑定后 this 无法再次绑定。
+
+  5. 如何实现
+     #+BEGIN_SRC javascript
+     Function.prototype.bind
+     Function.prototype.softBind
+     #+END_SRC
+     答：Function.prototype.fakeBind = function (obj) {
+         var self = this;
+         return function () {
+           self.call(obj);
+         }
+       }
+
+     答：Function.prototype.softBind = function(obj) {
+         var self = this;
+         return function () {
+           self.call(this === window? obj : this);
+         }
+       };
+
+  6. new 的过程中发生了什么, 判断以下结果(new)
+     #+BEGIN_SRC javascript
+     function F() {
+       this.a = 3;
+       return {
+         a: 4
+       }
+     }
+     const f = new F();
+     console.log(f.a);
+     #+END_SRC
+     答：4
+       new 创建一个新的对象
+       this 指向实例，并且执行函数
+       如果没有显式返回，则默认返回这个实例
+
+  7. 什么是data descriptor 和 accessor descriptor?
+  答：不会
+
+
+  8. 如何访问一个对象的属性与如何对一个对象的属性赋值(Get & Put)?
+  答：Get：检查自身属性，如果没被找到，则在原型链上查找，如果没找到，则返回 undefined
+  答：Put：如果该对象不存在与原型链上，直接给自身属性赋值
+
+  9. 如何遍历一个对象(iterator)?
+  答：Symbol.iterator 属性
+
+  10. 如何实现一个继承(Object.create & call)?
+  答：使用 XXX.prototype = Object.create(YYY.prototype)
+
+  11. 如何实现 __proto__?
+  答：用 prototype
+
+  12. 如何实现Object.create?
+  答：Object.create = function (o) {
+      function F() {}
+      F.prototype = o;
+      return new F();
+    }
