@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # Author : hejianxin
 # Time : 2021/2/20 3:19 下午
+import re
+
 
 # 1题 反转
 data = 'abcdefg'
@@ -11,13 +13,37 @@ def reverse(input_data: str, res_data='', index=0) -> str:
         return reverse(input_data[:-1], res_data, index)
     return res_data
 
-print(reverse(data))
+# print(reverse(data))
 
 
 # 2题 不大明白
-def expr():
-    pass
+def expr(expression: list):
+    expr_list = []
+    for num in expression:
+        if num not in ['+', '-', '*', '/']:
+            # 判断是数字还是符号,
+            expr_list.append(float(num))
+        else:
+            first_num = expr_list[-1]
+            end_num = expr_list[-2]
+            # 删除取走的两位数
+            del expr_list[-1]
+            del expr_list[-1]
+            if num == '+':
+                expr_list.append(first_num + end_num)
+            elif num == '-':
+                # 前面减后面
+                expr_list.append(end_num - first_num)
+            elif num == '*':
+                expr_list.append(first_num * end_num)
+            elif num == '/':
+                expr_list.append(end_num / first_num)
+    # 最后应该返回一个值，多个值代表输入有问题
+    assert len(expr_list) == 1, f'invalid parameter {expression}'
+    return expr_list[0]
 
+print(expr(['1', '2','+', '3', '4', '+', '*']))
+print(expr(['2', '1', '3', '4', '+', '*', '-']))
 
 # 3题 不大了解归并排序，会冒泡排序
 test_sort_list = [3,1, 4, 1, 5, 9, 2, 6]
@@ -28,7 +54,7 @@ def my_sort(sort_list: list) -> list:
                 sort_list[in_index], sort_list[in_index+1] = sort_list[in_index+1], sort_list[in_index]
     return sort_list
 
-print(my_sort(test_sort_list))
+# print(my_sort(test_sort_list))
 
 
 # 4题
@@ -70,7 +96,7 @@ def distinct_json(distinct_list: list):
         res_dict.setdefault(data_dict['serial'], data_dict)
     return [i for i in res_dict.values()]
 
-print(distinct_json(test_distinct_dict))
+# print(distinct_json(test_distinct_dict))
 
 
 # 5题
@@ -184,13 +210,11 @@ def tree(data_list):
         # 找出当前节点对子节点
         for find_node in find_node_list:
             children_list = data.get(find_node['code'])
-
             if children_list:
                 find_node['children'] = children_list
                 if res_data == {}:
                     res_data.update(find_node)
                 for children in children_list:
-                    # print(children)
                     find_data([children], res_data)
         return res_data
     return find_data([res_data])
@@ -215,4 +239,6 @@ def tree(data_list):
         # if province['parent'] and province['parent'] == parent_code:
         #     province['children'] = province
         #     res_data['children'] = 1
-print(tree(test_tree_list))
+# print(tree(test_tree_list))
+
+
