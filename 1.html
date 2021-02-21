@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 编写一个递归版本的 reverse(s) 函数(或方法),以将字符串s倒置
+        function reverseStr(array, length) {
+            // 先判断是否存在字符串数组
+            if (length > 1) {
+                for (var i = 0; i < length - 1; i++) {
+                    var temp = array[i];
+                    array[i] = array[i + 1];
+                    array[i + 1] = temp;
+                }
+                length--;
+                reverseStr(array, length);
+            }
+        }
+        function reverses(s) {
+            var array = s.split("");
+            reverseStr(array, array.length);
+            return array.join("");
+        }
+        // 调用函数实现功能
+        var str = "hello world";
+        var result = reverses(str);
+        console.log(result);
+
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 对下面的 json 字符串 serial 相同的进行去重
+        var array = [
+            {
+                "name": "张三",
+                "serial": "0001"
+            }, {
+                "name": "李四",
+                "serial": "0002"
+            }, {
+                "name": "王五",
+                "serial": "0003"
+            }, {
+                "name": "王五2",
+                "serial": "0003"
+            }, {
+                "name": "赵四",
+                "serial": "0004"
+            }, {
+                "name": "小明",
+                "serial": "005"
+            }, {
+                "name": "小张",
+                "serial": "006"
+            }, {
+                "name": "小李",
+                "serial": "006"
+            }, {
+                "name": "小李2",
+                "serial": "006"
+            }, {
+                "name": "赵四2",
+                "serial": "0004"
+            }]
+        // 存放serial的数组
+        var newArr = []
+        // 新数组
+        var newArray = []
+        for (var i in array) {
+            for (var k in array[i]) {}
+            if (newArr.indexOf(array[i][k]) === -1) {
+                newArr.push(array[i][k])
+                newArray.push(array[i])
+            }
+        }
+        console.log('newArr', newArr)
+        console.log('newArray', newArray)
+    </script>
+</body>
+
+</html>

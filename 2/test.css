@@ -1,0 +1,16 @@
+.container {
+    width: 800px;
+    height: 300px;
+    margin: auto;
+    margin-top: 60px;
+    border: 1px solid black;
+    padding: 20px;
+    background-color: bisque;
+}
+.container>.input {
+    margin-bottom: 60px;
+}
+.container>.input>.text-input {
+    width: 700px;
+    margin-bottom: 10px;
+}
