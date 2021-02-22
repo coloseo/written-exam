@@ -95,7 +95,7 @@ expr 2 3 4 + *
     List list = JSONArray.toList(json);
     HashSet set = new HashSet(list);
     JSONArray newjsonarray= JSONArray.fromObject(set);
-    ```
+    
 
 5. 把下面给出的扁平化json数据用递归的方式改写成组织树的形式
 
