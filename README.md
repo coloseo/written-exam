@@ -1,54 +1,92 @@
-# 笔试题  
+（1）
+def reverse(s):
+    if s == '':
+        return s
+    else:
+        return reverse(s[1:]) + s[0]
 
-请完成以下笔试题，可以使用自己擅长的语言来编写，通过 github pull request 提交代码。
+print(reverse('abcde'))
 
-1. 编写一个递归版本的 reverse(s) 函数(或方法),以将字符串s倒置。
+（2）
+def expr(data):
+    stack_res = list()
+    cal = ['+', '-', '*', '/']
 
-2. 编写程序 expr，以计算从命令行输入的逆波兰表达式的值，其中每个运算符或操作数用一个单独的参数表示。例如，命令
-expr 2 3 4 + *
+    for index in data:
+        if index not in cal:
+            stack_res.append(index)
 
-3. 用归并排序将3，1，4，1，5，9，2，6 排序。
+        else:
+            right = int(stack_res.pop())
+            left = int(stack_res.pop())
 
-4. 对下面的 json 字符串 serial 相同的进行去重。
+            if index == '*':
+                res = left * right
+                stack_res.append(res)
+            if index == '/':
+                res = left / right
+                if right_ops == 0:
+                    raise Exception('Zero')
+                stack_res.append(res)
+            if index == '+':
+                res = left + right
+                stack_res.append(res)
+            if index == '-':
+                res = left - right
+                stack_res.append(res)
 
-```javascript
-  [{
-    "name": "张三",
-    "serial": "0001"
-  }, {
-    "name": "李四",
-    "serial": "0002"
-  }, {
-    "name": "王五",
-    "serial": "0003"
-  }, {
-    "name": "王五2",
-    "serial": "0003"
-  }, {
-    "name": "赵四",
-    "serial": "0004"
-  }, {
-    "name": "小明",
-    "serial": "005"
-  }, {
-    "name": "小张",
-    "serial": "006"
-  }, {
-    "name": "小李",
-    "serial": "006"
-  }, {
-    "name": "小李2",
-    "serial": "006"
-  }, {
-    "name": "赵四2",
-    "serial": "0004"
-  }];
-```
+    if len(stack_res) == 1:
+        return stack_res[0]
 
-5. 把下面给出的扁平化json数据用递归的方式改写成组织树的形式
+print('输入参数')
+date = input().split()
+print(expr(date))
 
-```javascript
-  [
+（3）
+def MergeSort(date):
+    if len(date) <= 1:
+        return date
+    i = int( len(date) / 2 )
+    left = MergeSort(date[:i])
+    right = MergeSort(date[i:])
+    return Merge(left, right)
+def Merge(left,right):
+    r, l=0, 0
+    result=[]
+    while l<len(left) and r<len(right):
+        if left[l] <= right[r]:
+            result.append(left[l])
+            l += 1
+        else:
+            result.append(right[r])
+            r += 1
+    result += list(left[l:])
+    result += list(right[r:])
+    return (result)
+
+if __name__ == '__main__':
+    print (MergeSort([3,1,4,1,5,9,2,6]))
+    
+（4）
+json = [{"name": "张三","serial": "0001"}, {"name": "李四","serial": "0002"},
+        {"name": "王五","serial": "0003"}, {"name": "王五2","serial": "0003"},
+        {"name": "赵四","serial": "0004"}, {"name": "小明","serial": "005"},
+        { "name": "小张", "serial": "006"}, {"name": "小李","serial": "006" },
+        { "name": "小李2", "serial": "006" }, { "name": "赵四2","serial": "0004"}];\
+p = list()
+q = list()
+for i in json:
+    p.append(i["serial"])
+j = len(p) - 1
+while range(j):
+    if p[j] not in p[:j]:
+        q.append(json[j])
+    j = j - 1
+q.append(json[0])
+print(q)
+
+（5）
+json=[
     {
       "id": "1",
       "name": "中国",
@@ -115,5 +153,13 @@ expr 2 3 4 + *
       "code": "51000102",
       "parent": "510001"
     }
-  ];
-```
+  ]
+
+def getChildren(parent=""):
+    children=[]
+    for obj in json:
+        if obj["parent"] == parent:
+            children.append({"id":obj["id"],"name":obj["name"],"code":obj["code"],"parent":obj["parent"],"children":getChildren(obj["code"])})
+    return children
+if __name__ == '__main__':
+    print(getChildren())
