@@ -4,18 +4,19 @@
      var s = 'abc';
      s[1] = 'B';
      
-     console.log(s);
+     console.log(s);   // abc
 
      var l = new String('abc');
      l[1] = 'B';
-     console.log(l);
+     console.log(l);  Sting {"abc"}
      #+END_SRC
 
   2. 如何逆序一个字符串？
-
+      str.split("").reverse().join("")
   3. 接上，为什么不能直接使用
      #+BEGIN_SRC javascript
      Array.prototype.reverse.call(str)
+     [Object String] 只读 不能更改
      #+END_SRC
      逆序字符串？
 
@@ -23,37 +24,39 @@
      #+BEGIN_SRC javascript
      0.1 + 0.2 === 0.3;
      0.8 - 0.6 === 0.3;
+     因为计算机在运算小数的时候会产生精度丢失，可以将小数转化为整数然后在计算，也可以采用第三方库比如Math.js
      #+END_SRC
 
   5. 如何判断一个数值为整数？
-
+      typeof(val) == 'number'。
   6. 如何判断一个数值为+0？
 
   7. 以下代码中'abc'作为primitive value, 如何访问toUpperCase 方法?
      #+BEGIN_SRC javascript
-     'abc'.toUpperCase();
+     'abc'.toUpperCase();  // 'ABC'
      #+END_SRC
 
   8. 判断以下结果
      #+BEGIN_SRC javascript
-     Array.isArray(Array.prototype);
+     Array.isArray(Array.prototype); // true
      #+END_SRC
 
   9. 判断以下结果
      #+BEGIN_SRC javascript
-     Boolean(Boolean(false));
-     Boolean(document.all);
-
-     [] == '';
-     [3] == 3;
-     [] == false;
-     42 == true;
+     Boolean(Boolean(false)); // false
+     Boolean(document.all);   // false
+  
+     [] == '';   // true
+     [3] == 3;   // true
+     [] == false;// true
+     42 == true; // false
      #+END_SRC
 
   10. 找出以下代码问题(TDZ)
       #+BEGIN_SRC javascript
       var a = 3;
       let a;
+      会报错说a 已经定义了
       #+END_SRC
 
   11. 找出以下代码问题(TDZ)
@@ -64,11 +67,14 @@
       }
       
       foo();
+      在JS中 函数会有声明提升 这个时候b 还没有开辟内存初始化;  
       #+END_SRC
-
+ 
 * scope & closures
 
   1. var a = 2 中, Engine, Scope, Compiler 做了什么工作?
+   编译器先声明变量，然后Engine在Scope中查询这个变量，如果发现就分配它。Compiler 会把2分配至a
+
 
   2. 判断以下结果(lexical scope)
      #+BEGIN_SRC javascript
@@ -80,11 +86,12 @@
          }
          return f;
      }
+     // undefined
      #+END_SRC
 
   3. 判断以下结果(Hoisting)
      #+BEGIN_SRC javascript
-     console.log(a);
+     console.log(a);  // undefined
      var a = 3;
      #+END_SRC
 
@@ -92,7 +99,8 @@
      #+BEGIN_SRC javascript
      var foo = 1;
      function foo() {}
-     console.log(foo);
+     console.log(foo);     // 1
+
      #+END_SRC
 
   5. 判断以下结果(IIFE & Function First)
@@ -102,9 +110,9 @@
        foo = 2;
        function foo (){
        }
-       console.log(foo);
+       console.log(foo);   // 2
      })()
-     console.log(foo);
+     console.log(foo);     // 1
      #+END_SRC
 
   6. 判断以下结果，如何按序输出(Closure)
@@ -114,6 +122,7 @@
          console.log(i);
        }, i * 1000);
      }
+     //打印10个10
      #+END_SRC
 
 * this & object prototypes
@@ -126,19 +135,20 @@
      var a = 2;
      
      foo();
+     报错因为函数提升至变量之前此时a还未初始化所以a访问不了
      #+END_SRC
 
   2. 判断以下结果
      #+BEGIN_SRC javascript
      "use strict"
      var a = 2;
-     console.log(this);
+     console.log(this);  // window对象
      #+END_SRC
 
   3. 判断以下结果(strict mode & default binding)
      #+BEGIN_SRC javascript
      function foo() {
-       console.log(this.a);
+       console.log(this.a);    // 2
      }
      var a = 2;
      (function(){
@@ -150,18 +160,26 @@
   4. 判断以下结果(hard binding)
      #+BEGIN_SRC javascript
      function foo() {
-       console.log(this.a);
+       console.log(this.a);   
      }
      const o1 = { a: 3 };
      const o2 = { a: 4 };
 
      foo.bind(o1).bind(o2)();
+
+     //报错o1被定义 const 定义的变量不能被修改
      #+END_SRC
 
   5. 如何实现
      #+BEGIN_SRC javascript
      Function.prototype.bind
      Function.prototype.softBind
+     Function.prototype.myBind = function (ctx, ...bindArgs) {
+      const fnObj = this
+      return function (...fnArgs) {
+         return fnObj.apply(ctx, [...bindArgs, ...fnArgs])
+         }
+      }
      #+END_SRC
 
   6. new 的过程中发生了什么, 判断以下结果(new)
@@ -173,17 +191,43 @@
        }
      }
      const f = new F();
-     console.log(f.a);
+     console.log(f.a);   // 4
+     让this指向该对象，执行构造函数里面的代码，自动返回this
+
      #+END_SRC
 
   7. 什么是data descriptor 和 accessor descriptor?
+      访问对象属性的优先级
 
   8. 如何访问一个对象的属性与如何对一个对象的属性赋值(Get & Put)?
+      可以使用getter和setter来改写默认操作，但是只能应用在单个属性上，不能用于整个对象。
 
   9. 如何遍历一个对象(iterator)?
-
+      可以使用for in 
   10. 如何实现一个继承(Object.create & call)?
+      const Person = {
+      isHuman: false,
+      printIntroduction: function() {
+            console.log('我是一个人');
+         }
+      };
+      const me = Object.create(Person);
 
   11. 如何实现 __proto__?
+      
+      function Animal(){
+      }
+      
+      function Dog(){
+      }
+      Dog.prototype.__prototype = Animal.prototype;
+      let dog = new Dog();
 
   12. 如何实现Object.create?
+   function create(proto) {
+      function F() {};
+         F.prototype = proto; // 将原型挂在构造函数的prototype上
+         F.prototype.constructor = F;
+         return new F(); // 返回新对象
+   }
+
