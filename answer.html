@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>answer</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // 1.编写一个递归版本的 reverse(s) 函数(或方法),以将字符串s倒置。
+    function reverse(s) {
+        var arr = s.split('');
+        changeStr(arr);
+        return arr.join('')
+    }
+    function changeStr(arr, len) {
+        if (len > 1) {
+            for (let i = 0; i < len - 1; i++) {
+                var temp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = temp;
+            }
+            len--;
+            changeStr(arr, len)
+        }
+        return arr
+    }
+    //2.编写程序 expr，以计算从命令行输入的逆波兰表达式的值，其中每个运算符或操作数用一个单独的参数表示。例如，命令 expr 2 3 4 + *
+
+    //3.用归并排序将3，1，4，1，5，9，2，6 排序。
+    var mylist = [3, 1, 4, 1, 5, 9, 2, 6];
+    function mergeSort(list) {
+        var length = list.length;
+        if (length == 1) {
+            return list;
+        }
+        var mid = Math.floor(length / 2);
+        var left = list.slice(0, mid);
+        var right = list.slice(mid, length);
+        return merge(mergeSort(left), mergeSort(right));
+    };
+
+    function merge(left, right) {
+        var result = [];
+        var nl = 0;
+        var nr = 0;
+        while (nl < left.length && nr < right.length) {
+            if (left[nl] < right[nr]) {
+                result.push(left[nl++]);
+            } else {
+                result.push(right[nr++]);
+            }
+        }
+        while (nl < left.length) {
+            result.push(left[nl++]);
+        }
+        while (nr < right.length) {
+            result.push(right[nr++]);
+        }
+        return result;
+    }
+    mergeSort(mylist);
+    //4.对下面的 json 字符串 serial 相同的进行去重
+    function handleSerial(str) {
+        if (s.length > 1) {
+            for (let i = 0; i < str.length - 1; i++) {
+                for (let j = i + 1; j < str.length; j++) {
+                    if (str[i].serial == str[j].serial) {
+                        str.splice(j, 1);
+                        j--;
+                    }
+                }
+            }
+        }
+        return str;
+    }
+    //5.把下面给出的扁平化json数据用递归的方式改写成组织树的形式
+    function Tree(st){
+    let index = 0 ;
+    if(st.length>1){
+        for(let i=0;i<st.length;i++){
+            let a = 0;
+            for(let j=i+1;j<st.length;j++){
+                if(st[j].parent == st[i].code){
+                    a++; 
+                    index++;
+                }
+            }
+            if(a == 0&&st[i].parent!=''){ 
+                for(let n in st){
+                    st[n].children = st[n].children?st[n].children:[];
+                    if(st[n].code == st[i].parent){
+                        st[n].children.push(st[i]);
+                    }
+                }
+                st.splice(i,1);
+                i--; 
+            }
+        }
+        if(index != 0){
+            Tree(st);
+        }
+    }
+    return st;
+}
+function changeTree(st){ 
+    st = Tree(st);
+    return st;
+}
+
+</script>
+
+</html>
