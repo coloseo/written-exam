@@ -1,0 +1,101 @@
+<!--test1-->
+<script type="text/javascript">
+        var str = "123456";
+        var request = reverse(str);
+        alert(request);
+        function reverse(s){
+            var arr = s.split("");   //将字符串成分割数组
+            reverseStr(arr,arr.length);
+            return arr.join("");
+        }
+        function reverseStr(arr,len){
+            if(len>1){
+                for(var i=0;i < len-1;i++){
+                    var temp = arr[i];
+                    arr[i] = arr[i+1];
+                    arr[i+1] = temp;
+                }
+                len--;
+                reverseStr(arr,len);
+            }   
+        }
+    </script>
+    
+    <!-- test2 -->
+    <script>
+        expr = (arr = []) => {
+        if (!arr) return 0;  //字符串为空,返回0
+        
+        var tempArr = arr.split(' ')
+        var elems = [];
+        let item = '';
+        while (item = tempArr.shift) {
+          if (!isNaN(+item)) {
+            elems.push(+item)
+          } else {
+            var res = count(item, elems.pop, elems.pop)
+            elems.push(res)
+          }
+        }
+      }
+      
+      count = (opera, num1, num2) => {
+      
+        switch (opera) {
+          case '+':
+            return num2 + num1
+          case '-':
+            return num2 - num1
+          case '*':
+            return num2 * num1
+          case '/':
+            return num2 / num1
+        }
+      }
+    </script>
+    
+    <!-- test 4 -->
+    <script>
+        unique = () => {
+	  let arr = [{
+	    "name": "张三",
+	    "serial": "0001"
+	  }, {
+	    "name": "李四",
+	    "serial": "0002"
+	  }, {
+	    "name": "王五",
+	    "serial": "0003"
+	  }, {
+	    "name": "王五2",
+	    "serial": "0003"
+	  }, {
+	    "name": "赵四",
+	    "serial": "0004"
+	  }, {
+	    "name": "小明",
+	    "serial": "005"
+	  }, {
+	    "name": "小张",
+	    "serial": "006"
+	  }, {
+	    "name": "小李",
+	    "serial": "006"
+	  }, {
+	    "name": "小李2",
+	    "serial": "006"
+	  }, {
+	    "name": "赵四2",
+	    "serial": "0004"
+	  }];
+	  let newArr = [];
+	  for (let item of arr) {
+	    const { serial = '' } = item;
+	    const aaa = newArr.find(item => item.serial === serial);
+	    if (!aaa) {
+	      newArr.push(item);
+	    }
+	  }
+	  return newArr;
+	}
+</script>
