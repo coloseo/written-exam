@@ -217,5 +217,8 @@ function treeHandle(arr, parent) {
 
 // console.log(serial(jsonStrArr));
 // console.dir(treeHandle(tree, ''));
-
+let o = { a: 1, b: 2 }
+for (const p of o) {
+    console.log(p)
+}
 
